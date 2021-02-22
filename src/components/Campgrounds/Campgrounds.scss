@@ -1,0 +1,56 @@
+@import '../../scss/variables.scss';
+@import '../../scss/extends.scss';
+@import '../../scss/mixins.scss';
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 65vw;
+    height: 100%;
+    margin: 2vh auto;
+    
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    background-color: $headerBg;
+    border-radius: 6px;
+    height: 30%;
+    padding: 5%;
+    
+
+    &__title {
+        font-size: 4em;
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-size: 1.8em;
+    }
+
+    button {
+        @extend %button-add;
+    }
+}
+
+.campgrounds-grid {
+    margin-top: 2%;align-content: center;
+    
+    &__thumbnail {
+    @include grid(4, 2%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    outline: 1px solid black;
+    border-radius: 4px;
+
+     img {
+         width: 100%;
+     }
+
+     button {
+         @extend %button-add;
+     }
+    }
+}

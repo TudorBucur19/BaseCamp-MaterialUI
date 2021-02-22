@@ -1,14 +1,20 @@
 import React from 'react';
-import Navbar from '../navbar/Navbar';
 import './ShowCampground.scss';
 
-const Campground = () => {
+const CAMPGROUNDS = [
+    {
+        img: "http://i.imgur.com/K3mPv14.jpg",
+        title: "Camp name",
+        review: "good"
+    }
+]
+
+const ShowCampground = () => {
     return ( 
         <div>
-            <Navbar/>
-            camp
+            campground
         </div>
      );
 }
  
-export default Campground;
+export default ShowCampground;

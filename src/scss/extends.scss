@@ -1,0 +1,16 @@
+@import './variables.scss';
+
+%button-add {
+    width: fit-content;
+    background-color: $btnAddBg;
+    color: white;
+    border-radius: 4px;
+    font-size: 1em;
+    padding: 0.7em;
+
+    &:hover {
+        background-color: $btnAddHover;
+    }
+
+
+}

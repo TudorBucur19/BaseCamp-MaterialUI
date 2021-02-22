@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import LandingPage from '../components/landingPage/LandingPage';
-import Campground from '../components/ShowCampground/ShowCampground';
+import Campgrounds from '../components/Campgrounds/Campgrounds';
 
 export const ROUTES = [
     {
@@ -14,7 +14,7 @@ export const ROUTES = [
         key: "campgrounds",
         path: "/campgrounds",
         exact: true,
-        component: Campground
+        component: Campgrounds
     }
 ];
 
