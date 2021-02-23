@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
-import './Campgrounds.scss'
-import { CAMPGROUNDS } from '../showCampground/ShowCampground';
+import './Campgrounds.scss';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 
 
@@ -24,15 +23,14 @@ const Campgrounds = () => {
                 <section className="campgrounds-grid">
 
                 {
-                        campgroundsList.map(campground => 
+                        campgroundsList.map((campground, index)=> 
                             <div key={campground.id} className="campgrounds-grid__thumbnail">
-                                <img src={campground.newCampground.image} alt="campground"/>
-                                <h3>{campground.newCampground.name}</h3>
-                                <p>{`${campground.newCampground.price} $ / night`}</p>
-                                <Link to="/campgrounds/campgroundid">
+                                <img src={campground.campground.image} alt="campground"/>
+                                <h3>{campground.campground.name}</h3>
+                                <p>{`${campground.campground.price} $ / night`}</p>
+                                <Link to={`/campgrounds/${campground.id}`}>
                                     <a>More info</a>
-                                </Link>
-                                
+                                </Link>                                
                             </div>
                         )
                     }

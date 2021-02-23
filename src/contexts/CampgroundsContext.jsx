@@ -5,13 +5,13 @@ export const CampgroundsContext = createContext();
 
 const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
-    const [newCampground, setNewCampground] = useState({});
+    const [campground, setCampground] = useState({});
     const campgroundsList = useEntries();
 
     const handleChange = (event) => {
         const value = event.target.value;
-        setNewCampground({
-            ...newCampground,
+        setCampground({
+            ...campground,
             [event.target.name]: value
         });
     };
@@ -22,10 +22,10 @@ const CampgroundsContextProvider = (props) => {
 
         db.collection('Campgrounds')
         .add({
-            newCampground
+            campground
         })
         .then(() => {
-           setNewCampground({
+           setCampground({
                name: "",
                price: "",
                image: "",
@@ -55,10 +55,10 @@ const CampgroundsContextProvider = (props) => {
     
         return entries;
     };
-
+    console.log(campgroundsList)
 
     const values = {
-        newCampground,
+        campground,
         campgroundsList,
         handleChange,
         handleSubmit

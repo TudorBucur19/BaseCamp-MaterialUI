@@ -4,7 +4,7 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
 
 const AddNewCampground = () => {
-    const{ newCampground, handleChange, handleSubmit } = useContext(CampgroundsContext);
+    const{ campground, handleChange, handleSubmit } = useContext(CampgroundsContext);
 
     return (
         <div> 
@@ -15,28 +15,28 @@ const AddNewCampground = () => {
                     <input 
                     type="text" 
                     name="name" 
-                    value={newCampground.name}                
+                    value={campground.name}                
                     placeholder="name"
                     />
 
                     <input 
                     type="number" 
                     name="price" 
-                    value={newCampground.price} 
+                    value={campground.price} 
                     placeholder="price"
                     />
 
                     <input 
                     type="text" 
                     name="image" 
-                    value={newCampground.image} 
+                    value={campground.image} 
                     placeholder="image url"
                     /> 
 
                     <input 
                     type="text" 
                     name="description" 
-                    value={newCampground.description} 
+                    value={campground.description} 
                     placeholder="description"
                     />
 

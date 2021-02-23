@@ -1,61 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
 import './ShowCampground.scss';
 
-export const CAMPGROUNDS = [
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Hacienda",
-        review: "good"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Clouds rest",
-        review: "medium"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Lake",
-        review: "great"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Yosemite",
-        review: "poor"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Hacienda",
-        review: "good"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Clouds rest",
-        review: "medium"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Lake",
-        review: "great"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Yosemite",
-        review: "poor"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Lake",
-        review: "great"
-    },
-    {
-        img: "http://i.imgur.com/K3mPv14.jpg",
-        title: "Yosemite",
-        review: "poor"
-    }
-]
 
 const ShowCampground = () => {
+    const { campgroundsList } = useContext(CampgroundsContext);
+    const { id } = useParams();    
+    const camp = campgroundsList.find(campground => campground.id === id).campground;
+    
+   
     return ( 
         <div>
             <Navbar/>
@@ -72,25 +27,23 @@ const ShowCampground = () => {
 
                 <div className="info-campground">
                     <div className="info-campground__main">
-                        <img src="http://i.imgur.com/K3mPv14.jpg" alt="main photo"/>
+                        <img src={camp.image} alt="main photo"/>
                         <div className="info-text">
-                            <h4><span className="info-text__title">Clouds rest</span> <span>$9.00 / night</span></h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                Inventore facilis qui optio ad! Quia unde voluptatum ipsum quisquam 
-                                provident assumenda minus nam, perferendis adipisci quidem repudiandae, 
-                                illo doloremque esse quam!
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                                Facilis aut ipsa harum magnam repellendus voluptatibus repudiandae delectus 
-                                modi nemo molestiae consequuntur tempora culpa eligendi quidem, deserunt voluptatum 
-                                libero quam laboriosam.
-                            </p>
+                            <h4>
+                                <span className="info-text__title">{camp.name}</span> 
+                                <span>$ {camp.price} /night</span>
+                            </h4>
+                            <p>{camp.description}</p>
                             <p><em>Submited by Tudor</em></p>                                
                         </div>
                     </div>     
 
                     <div className="campground-comments">
                         <a>Add New Comment</a>
-                        <p className="campground-comments__author"><span><b>Author</b></span> <span>10 days ago</span></p>
+                        <p className="campground-comments__author">
+                            <span><b>Author</b></span> 
+                            <span>10 days ago</span>
+                        </p>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
                             Ea ullam ab quo veniam expedita maxime at in autem fuga non !
                         </p>
