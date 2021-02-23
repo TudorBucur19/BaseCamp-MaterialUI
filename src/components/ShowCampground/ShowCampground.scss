@@ -48,6 +48,8 @@
     }
 
     .info-text {
+        display: flex;
+        flex-direction: column;
         padding: 1%;
 
         h4 {

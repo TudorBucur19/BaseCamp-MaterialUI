@@ -73,7 +73,7 @@ const ShowCampground = () => {
                 <div className="info-campground">
                     <div className="info-campground__main">
                         <img src="http://i.imgur.com/K3mPv14.jpg" alt="main photo"/>
-                        <div className="info-campground__main info-text">
+                        <div className="info-text">
                             <h4><span className="info-text__title">Clouds rest</span> <span>$9.00 / night</span></h4>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
                                 Inventore facilis qui optio ad! Quia unde voluptatum ipsum quisquam 

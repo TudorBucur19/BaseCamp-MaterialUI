@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import './Campgrounds.scss'
 import { CAMPGROUNDS } from '../showCampground/ShowCampground';
+import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+
 
 const Campgrounds = () => {
-    console.log(CAMPGROUNDS);
+    const { campgroundsList } = useContext(CampgroundsContext);
+
     return ( 
         <div className="container">
             <Navbar/>
@@ -19,7 +22,22 @@ const Campgrounds = () => {
                 </header>
 
                 <section className="campgrounds-grid">
-                    {
+
+                {
+                        campgroundsList.map(campground => 
+                            <div key={campground.id} className="campgrounds-grid__thumbnail">
+                                <img src={campground.newCampground.image} alt="campground"/>
+                                <h3>{campground.newCampground.name}</h3>
+                                <p>{`${campground.newCampground.price} $ / night`}</p>
+                                <Link to="/campgrounds/campgroundid">
+                                    <a>More info</a>
+                                </Link>
+                                
+                            </div>
+                        )
+                    }
+
+                    {/* {
                         CAMPGROUNDS.map(campground => 
                             <div key={campground.title} className="campgrounds-grid__thumbnail">
                                 <img src={campground.img} alt="campground"/>
@@ -31,7 +49,7 @@ const Campgrounds = () => {
                                 
                             </div>
                         )
-                    }
+                    } */}
                     
                     
                     
