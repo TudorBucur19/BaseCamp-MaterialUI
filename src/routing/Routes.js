@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import LandingPage from '../components/landingPage/LandingPage';
-import Campgrounds from '../components/Campgrounds/Campgrounds';
+import Campgrounds from '../components/campgrounds/Campgrounds';
+import ShowCampground from '../components/showCampground/ShowCampground';
+import AddNewCampground from '../components/forms/NewCampground';
 
 export const ROUTES = [
     {
@@ -15,6 +17,18 @@ export const ROUTES = [
         path: "/campgrounds",
         exact: true,
         component: Campgrounds
+    },
+    {
+        key: "campgroundid",
+        path: "/campgrounds/campgroundid",
+        exact: false,
+        component: ShowCampground
+    },
+    {
+        key: "newcampground",
+        path: "/campgrounds/new",
+        exact: true,
+        component: AddNewCampground
     }
 ];
 

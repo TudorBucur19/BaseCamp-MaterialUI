@@ -29,28 +29,30 @@
         font-size: 1.8em;
     }
 
-    button {
+    a {
         @extend %button-add;
     }
 }
 
 .campgrounds-grid {
-    margin-top: 2%;align-content: center;
+    margin-top: 2%;
+    align-content: center;
     
     &__thumbnail {
     @include grid(4, 2%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    outline: 1px solid black;
+    outline: 1px solid $contentBorder;
     border-radius: 4px;
 
      img {
          width: 100%;
      }
 
-     button {
+     a {
          @extend %button-add;
+         text-decoration: none;
      }
     }
 }
