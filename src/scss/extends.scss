@@ -11,6 +11,17 @@
     &:hover {
         background-color: $btnAddHover;
     }
+}
 
+%button-danger {
+    width: fit-content;
+    background-color: rgb(235, 66, 66);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.8em;
+    padding: 0.7em;
 
+    &:hover {
+        background-color: red;
+    }
 }

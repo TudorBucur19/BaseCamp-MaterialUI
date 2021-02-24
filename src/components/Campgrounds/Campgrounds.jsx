@@ -24,7 +24,7 @@ const Campgrounds = () => {
 
                 <section className="campgrounds-grid">
 
-                {
+                {campgroundsList &&
                         campgroundsList.map((campground, index)=> 
                             <div key={campground.id} className="campgrounds-grid__thumbnail">
                                 <img src={campground.campground.image} alt="campground"/>

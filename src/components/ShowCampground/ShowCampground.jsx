@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
@@ -6,10 +6,10 @@ import './ShowCampground.scss';
 
 
 const ShowCampground = () => {
-    const { campgroundsList } = useContext(CampgroundsContext);
-    const { id } = useParams();    
-    const camp = campgroundsList.find(campground => campground.id === id).campground;
-    
+    const { campgroundsList, removeItem } = useContext(CampgroundsContext);
+    const { id } = useParams();
+    const camp = campgroundsList.find(campground => campground.id === id);
+         
    
     return ( 
         <div>
@@ -27,14 +27,21 @@ const ShowCampground = () => {
 
                 <div className="info-campground">
                     <div className="info-campground__main">
-                        <img src={camp.image} alt="main photo"/>
+                        <img src={camp.campground.image} alt="main photo"/>
                         <div className="info-text">
                             <h4>
-                                <span className="info-text__title">{camp.name}</span> 
-                                <span>$ {camp.price} /night</span>
+                                <span className="info-text__title">{camp.campground.name}</span> 
+                                <span>$ {camp.campground.price} /night</span>
                             </h4>
-                            <p>{camp.description}</p>
-                            <p><em>Submited by Author</em></p>                                
+                            <p>{camp.campground.description}</p>
+                            <p><em>Submited by Author</em></p> 
+
+                            <button 
+                            className="btn-danger"
+                            onClick={() => removeItem(id)}
+                            >
+                                Remove This Campground
+                            </button>                              
                         </div>
                     </div>     
 
@@ -46,8 +53,7 @@ const ShowCampground = () => {
                             <span><b>Author</b></span> 
                             <span>10 days ago</span>
                         </p>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                            Ea ullam ab quo veniam expedita maxime at in autem fuga non !
+                        <p>{camp.comment}
                         </p>
                     </div>
 

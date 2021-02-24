@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 
 var firebaseConfig = {
-    apiKey: "AIzaSyDkxy0smPDhZmHz2sAx6oDBkocnw-VuZPU",
-    authDomain: "basecamp-72e7b.firebaseapp.com",
-    projectId: "basecamp-72e7b",
-    storageBucket: "basecamp-72e7b.appspot.com",
-    messagingSenderId: "264791313802",
-    appId: "1:264791313802:web:ef2156be05a34688340c73"
+  apiKey: "AIzaSyCUPadhCXooE1yZjV-ZpKvow2Yx6ssruAY",
+  authDomain: "basecamp-b57f1.firebaseapp.com",
+  projectId: "basecamp-b57f1",
+  storageBucket: "basecamp-b57f1.appspot.com",
+  messagingSenderId: "213545142197",
+  appId: "1:213545142197:web:95d8143a4e4be42915fbfc"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
