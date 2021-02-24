@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './NewCampground.scss';
+import './NewForm.scss';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
 
@@ -11,7 +11,7 @@ const AddNewCampground = () => {
             <Navbar/>
             <div className="form-container">
                 <h2>Create a New Campground</h2>
-                <form className="new-campground-form" onChange={handleChange} onSubmit={handleSubmit}>
+                <form className="new-item-form" onChange={handleChange} onSubmit={handleSubmit}>
                     <input 
                     type="text" 
                     name="name" 

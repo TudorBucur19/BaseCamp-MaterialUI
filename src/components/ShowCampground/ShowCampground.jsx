@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
 import './ShowCampground.scss';
@@ -34,12 +34,14 @@ const ShowCampground = () => {
                                 <span>$ {camp.price} /night</span>
                             </h4>
                             <p>{camp.description}</p>
-                            <p><em>Submited by Tudor</em></p>                                
+                            <p><em>Submited by Author</em></p>                                
                         </div>
                     </div>     
 
                     <div className="campground-comments">
-                        <a>Add New Comment</a>
+                        <Link to={`/campgrounds/${id}/newcomment`}>
+                            <a>Add New Comment</a>
+                        </Link>                        
                         <p className="campground-comments__author">
                             <span><b>Author</b></span> 
                             <span>10 days ago</span>

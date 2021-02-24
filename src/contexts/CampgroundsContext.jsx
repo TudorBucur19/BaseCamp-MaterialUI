@@ -55,7 +55,6 @@ const CampgroundsContextProvider = (props) => {
     
         return entries;
     };
-    console.log(campgroundsList)
 
     const values = {
         campground,

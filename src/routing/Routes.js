@@ -1,10 +1,11 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import SwitchRoutes from './SwitchRoutes';
 import LandingPage from '../components/landingPage/LandingPage';
 import Campgrounds from '../components/campgrounds/Campgrounds';
 import ShowCampground from '../components/showCampground/ShowCampground';
 import AddNewCampground from '../components/forms/NewCampground';
+import AddNewComment from '../components/forms/NewComment';
 
 export const ROUTES = [
     {
@@ -25,12 +26,19 @@ export const ROUTES = [
         exact: true,
         component: ShowCampground
     },
+    
     {
         key: "newcampground",
-        path: "/campgrounds/new",
+        path: "/newcampground",
         exact: true,
         component: AddNewCampground
-    }    
+    },
+    {
+        key: "newcomment",
+        path: "/campgrounds/:id/newcomment",
+        exact: true,
+        component: AddNewComment
+    }        
 ];
 
 const RoutesWithSubRoutes = (route) => {
@@ -38,7 +46,7 @@ const RoutesWithSubRoutes = (route) => {
         <Route
             path={route.path}
             exact={route.exact}
-            component={route.component} 
+            render={props => <route.component {...props} routes={route.routes} />} 
         />
      );
 }

@@ -5,7 +5,7 @@ import RoutesWithSubRoutes from './Routes';
 const SwitchRoutes = ({ routes }) => {
     return ( 
         <Switch>
-            {routes.map((route, i) => {
+            {routes.map((route) => {
                 return <RoutesWithSubRoutes key={route.key} {...route}/> 
             })
             }
