@@ -8,7 +8,10 @@ const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
     const history = useHistory();
     const [campground, setCampground] = useState({});
-    const campgroundsList = useEntries();
+    const [comment, setComment] = useState({});
+    const campgroundsList = useEntries('Campgrounds');
+    const allComments = useEntries('Comments');
+        
 
 
     const handleChange = (event) => {
@@ -18,6 +21,15 @@ const CampgroundsContextProvider = (props) => {
             [event.target.name]: value
         });
     };
+
+    const handleChangeComment = (event) => {
+        setComment({
+            commentID: event.target.id,
+            commentText: event.target.value
+        });
+        
+    }
+
 
     //ADDING CAMPGOUNDS TO DATABASE
     const handleSubmit = (event) => {
@@ -40,12 +52,12 @@ const CampgroundsContextProvider = (props) => {
 
 
     // GETTING CAMPGROUNDS LIST FROM DATABASE
-    function useEntries() {
+    function useEntries(collection) {
         const [entries, setEntries] = useState([]);
         
         useEffect(() => {
             const unsubscribe = db
-            .collection('Campgrounds')
+            .collection(collection)
             .onSnapshot((snapshot) => {
                 const newEntry = snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -71,25 +83,33 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
+    const handleSubmitComment = (event) => {
+        event.preventDefault();
 
-    //ADD COMMENTS TO CAMPGROUND
-    const addComment = (id) => {
-        firebase
-        .firestore()
-        .collection('Campgrounds')
-        .doc(id)
-        .update({...campground})
-        .then(() => console.log("Document was updated"))
-        .catch((error) => console.error("Error deleting document", error));
+        db.collection('Comments')
+        .add({
+            comment
+        })
+        .then(() => {
+           setComment({
+               commentID: "",
+               commentText: ""
+           });
+        })
+        history.goBack();
     };
+
 
     const values = {
         campground,
         campgroundsList,
         handleChange,
         handleSubmit,
-        addComment,
-        removeItem
+        removeItem,
+        comment,
+        handleChangeComment,        
+        handleSubmitComment,
+        allComments
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

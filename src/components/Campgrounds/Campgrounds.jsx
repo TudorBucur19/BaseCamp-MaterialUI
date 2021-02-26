@@ -7,7 +7,7 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 
 const Campgrounds = () => {
     const { campgroundsList } = useContext(CampgroundsContext);
-    const { path, url } = useRouteMatch();
+    const { url } = useRouteMatch();
     
 
     return ( 
@@ -18,20 +18,20 @@ const Campgrounds = () => {
                     <h1 className="header__title">Welcome to BaseCamp</h1>
                     <p className="header__subtitle">View all the hand-pick campgrounds around the world</p>
                     <Link to="/newcampground">
-                        <a className="btn-add">Add new campground</a>
+                        <button className="btn-add">Add new campground</button>
                     </Link>
                 </header>
 
                 <section className="campgrounds-grid">
 
                 {campgroundsList &&
-                        campgroundsList.map((campground, index)=> 
+                        campgroundsList.map((campground)=> 
                             <div key={campground.id} className="campgrounds-grid__thumbnail">
                                 <img src={campground.campground.image} alt="campground"/>
                                 <h3>{campground.campground.name}</h3>
                                 <p>{`${campground.campground.price} $ / night`}</p>
                                 <Link to={`${url}/${campground.id}`}>
-                                    <a>More info</a>
+                                    <button>More info</button>
                                 </Link>                                
                             </div>
                         )

@@ -29,7 +29,7 @@
         font-size: 1.8em;
     }
 
-    a {
+    button {
         @extend %button-add;
     }
 }
@@ -50,7 +50,7 @@
          width: 100%;
      }
 
-     a {
+     button {
          @extend %button-add;
          text-decoration: none;
      }

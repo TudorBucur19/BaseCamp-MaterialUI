@@ -12,8 +12,11 @@
 
 .info {
     width: 20%;
-    margin-right: 2%; 
-     
+    margin-right: 2%;   
+    
+    h3 {
+        margin-top: 0;
+    }
 }
 
 .info__list {
@@ -79,7 +82,7 @@
     border: 1px solid $contentBorder;
     border-radius: 4px;
 
-    a {
+    .btn-add {
         @extend %button-add;
         align-self: flex-end;
         

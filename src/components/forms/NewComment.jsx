@@ -5,16 +5,26 @@ import Navbar from '../navbar/Navbar';
 import './NewForm.scss';
 
 const AddNewComment = () => {
-    const { campground, addComment, handleChange } = useContext(CampgroundsContext);
+    const { comment, handleChangeComment, handleSubmitComment } = useContext(CampgroundsContext);
     const { id } = useParams();
+    console.log(id)
+    
     
     return ( 
         <div>
             <Navbar/>
             <div className="form-container">
                 <h2>Add a New Comment</h2>
-                <form className="new-item-form" onSubmit={() => addComment(id)}>
-                    <input type="text" name="comment" value={campground.comment} onChange={handleChange} placeholder="add comment"/>
+                <form className="new-item-form" onSubmit={handleSubmitComment}>
+                    <input
+                    id={id} 
+                    type="text" 
+                    name="commentText" 
+                    value={comment.commentText} 
+                    onChange={handleChangeComment} 
+                    placeholder="add comment"
+                    />
+
                     <button type="submit" className="btn-submit">Submit!</button>
                 </form>
             </div>

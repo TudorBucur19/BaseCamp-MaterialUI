@@ -6,14 +6,19 @@ import './ShowCampground.scss';
 
 
 const ShowCampground = () => {
-    const { campgroundsList, removeItem } = useContext(CampgroundsContext);
-    const { id } = useParams();
+    const { campgroundsList, removeItem, allComments } = useContext(CampgroundsContext);
+    const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
-         
+    const comments = allComments.filter(comment => comment.comment.commentID === id);
+    
+    // if(!camp){
+    //     return <p>Loading...</p>
+    // }
    
     return ( 
-        <div>
-            <Navbar/>
+        <>        
+        {camp && <div>
+            <Navbar/>            
             <div className="wrapper">
                 <div className="info">
                     <h3>BaseCamp</h3>
@@ -47,19 +52,25 @@ const ShowCampground = () => {
 
                     <div className="campground-comments">
                         <Link to={`/campgrounds/${id}/newcomment`}>
-                            <a>Add New Comment</a>
-                        </Link>                        
-                        <p className="campground-comments__author">
-                            <span><b>Author</b></span> 
-                            <span>10 days ago</span>
-                        </p>
-                        <p>{camp.comment}
-                        </p>
-                    </div>
+                            <button className="btn-add">Add New Comment</button>
+                        </Link>
 
+                        { comments && comments.map(comment =>
+                        <div>                     
+                            <p className="campground-comments__author">
+                                <span><b>Author</b></span> 
+                                <span>10 days ago</span>
+                            </p>
+                            <p>{comment.comment.commentText}</p>                  
+                        </div>
+                        )}
+                    </div>
                 </div>
-            </div>
+            </div>           
         </div>
+        }
+        </>
+                    
      );
 }
  
