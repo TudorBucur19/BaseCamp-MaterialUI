@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+import { CommentsContext } from '../../contexts/CommentsContext';
 import Navbar from '../navbar/Navbar';
 import './NewForm.scss';
 
 const AddNewComment = () => {
-    const { comment, handleChangeComment, handleSubmitComment } = useContext(CampgroundsContext);
+    const { comment, handleChangeComment, handleSubmitComment } = useContext(CommentsContext);
     const { id } = useParams();
     console.log(id)
     

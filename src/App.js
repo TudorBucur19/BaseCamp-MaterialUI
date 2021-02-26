@@ -4,13 +4,16 @@ import './App.scss';
 import CampgroundsContextProvider from './contexts/CampgroundsContext';
 import SwitchRoutes from './routing/SwitchRoutes';
 import { ROUTES } from './routing/Routes';
+import CommentsContextProvider from './contexts/CommentsContext';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <CampgroundsContextProvider>
-          <SwitchRoutes routes={ROUTES}/> 
+          <CommentsContextProvider>
+            <SwitchRoutes routes={ROUTES}/> 
+          </CommentsContextProvider>
         </CampgroundsContextProvider>
         
       </div>

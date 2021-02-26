@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+import { CommentsContext } from '../../contexts/CommentsContext';
 import Navbar from '../navbar/Navbar';
 import './ShowCampground.scss';
 
 
 const ShowCampground = () => {
-    const { campgroundsList, removeItem, allComments } = useContext(CampgroundsContext);
+    const { campgroundsList, removeItem } = useContext(CampgroundsContext);
+    const { allComments } = useContext(CommentsContext);
     const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
     const comments = allComments.filter(comment => comment.comment.commentID === id);

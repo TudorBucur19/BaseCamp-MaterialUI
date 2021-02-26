@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import SwitchRoutes from './SwitchRoutes';
 import LandingPage from '../components/landingPage/LandingPage';
 import Campgrounds from '../components/campgrounds/Campgrounds';
 import ShowCampground from '../components/showCampground/ShowCampground';

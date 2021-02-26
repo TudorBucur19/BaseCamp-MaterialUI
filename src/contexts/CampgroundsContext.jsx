@@ -7,10 +7,9 @@ export const CampgroundsContext = createContext();
 const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
     const history = useHistory();
-    const [campground, setCampground] = useState({});
-    const [comment, setComment] = useState({});
+    const [campground, setCampground] = useState({});   
     const campgroundsList = useEntries('Campgrounds');
-    const allComments = useEntries('Comments');
+    
         
 
 
@@ -22,15 +21,7 @@ const CampgroundsContextProvider = (props) => {
         });
     };
 
-    const handleChangeComment = (event) => {
-        setComment({
-            commentID: event.target.id,
-            commentText: event.target.value
-        });
-        
-    }
-
-
+    
     //ADDING CAMPGOUNDS TO DATABASE
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -73,9 +64,7 @@ const CampgroundsContextProvider = (props) => {
 
     //REMOVE ITEMS FROM DATABASE
     const removeItem = (id) => {
-        firebase
-        .firestore()
-        .collection('Campgrounds')
+        db.collection('Campgrounds')
         .doc(id)
         .delete()
         .then(() => console.log("Document was deleted"))
@@ -83,33 +72,14 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
-    const handleSubmitComment = (event) => {
-        event.preventDefault();
-
-        db.collection('Comments')
-        .add({
-            comment
-        })
-        .then(() => {
-           setComment({
-               commentID: "",
-               commentText: ""
-           });
-        })
-        history.goBack();
-    };
-
 
     const values = {
+        useEntries,
         campground,
         campgroundsList,
         handleChange,
         handleSubmit,
         removeItem,
-        comment,
-        handleChangeComment,        
-        handleSubmitComment,
-        allComments
     }
     return ( 
         <CampgroundsContext.Provider value={values}>
