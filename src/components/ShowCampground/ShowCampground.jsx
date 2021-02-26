@@ -8,10 +8,11 @@ import './ShowCampground.scss';
 
 const ShowCampground = () => {
     const { campgroundsList, removeItem } = useContext(CampgroundsContext);
-    const { allComments } = useContext(CommentsContext);
+    const { allComments, removeComment } = useContext(CommentsContext);
     const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
     const comments = allComments.filter(comment => comment.comment.commentID === id);
+    console.log(allComments)
     
     // if(!camp){
     //     return <p>Loading...</p>
@@ -25,7 +26,7 @@ const ShowCampground = () => {
                 <div className="info">
                     <h3>BaseCamp</h3>
                     <div className="info__list">
-                        <li>Info 1</li>
+                        <li className="active">Info 1</li>
                         <li>Info 2</li>
                         <li>Info 3</li>
                     </div>
@@ -44,7 +45,7 @@ const ShowCampground = () => {
                             <p><em>Submited by Author</em></p> 
 
                             <button 
-                            className="btn-danger"
+                            className="btn-remove-cg"
                             onClick={() => removeItem(id)}
                             >
                                 Remove This Campground
@@ -54,16 +55,22 @@ const ShowCampground = () => {
 
                     <div className="campground-comments">
                         <Link to={`/campgrounds/${id}/newcomment`}>
-                            <button className="btn-add">Add New Comment</button>
+                            <button className="btn-add-comm">Add New Comment</button>
                         </Link>
-
-                        { comments && comments.map(comment =>
-                        <div>                     
+                        
+                        {comments && comments.map(comment =>
+                        <div key={comment.id}>                     
                             <p className="campground-comments__author">
                                 <span><b>Author</b></span> 
                                 <span>10 days ago</span>
                             </p>
-                            <p>{comment.comment.commentText}</p>                  
+                            <p>{comment.comment.commentText}</p> 
+                            <button 
+                            className="btn-remove-comm"
+                            onClick={() => removeComment(comment.id)}
+                            >
+                                Remove
+                            </button>                 
                         </div>
                         )}
                     </div>

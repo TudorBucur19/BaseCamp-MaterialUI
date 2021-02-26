@@ -52,11 +52,20 @@ const CommentsContextProvider = (props) => {
         return entries;
     };
 
+    const removeComment = (id) => {
+        db.collection('Comments')
+        .doc(id)
+        .delete()
+        .then(() => console.log("Document was deleted"))
+        .catch((error) => console.error("Error deleting document", error));
+    };
+
     const values = {
         comment,
+        allComments,
         handleChangeComment,
         handleSubmitComment,
-        allComments
+        removeComment
     }
 
     return ( 

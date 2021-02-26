@@ -31,6 +31,7 @@
 
     button {
         @extend %button-add;
+        @include button-size(1.2em, 0.7em)
     }
 }
 
@@ -52,6 +53,7 @@
 
      button {
          @extend %button-add;
+         @include button-size(1em, 0.7em);
          text-decoration: none;
      }
     }
