@@ -12,8 +12,7 @@ const ShowCampground = () => {
     const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
     const comments = allComments.filter(comment => comment.comment.commentID === id);
-    console.log(allComments)
-    
+        
     // if(!camp){
     //     return <p>Loading...</p>
     // }
@@ -42,14 +41,24 @@ const ShowCampground = () => {
                                 <span>$ {camp.campground.price} /night</span>
                             </h4>
                             <p>{camp.campground.description}</p>
-                            <p><em>Submited by Author</em></p> 
+                            <p><em>Submited by Author</em></p>                               
+                        </div>
+                        <div className="info-buttons">
+                                <Link to={`/campgrounds/${id}/editcampground`}>
+                                    <button 
+                                    className="btn-edit-cg"
+                                    >
+                                        Edit Campground
+                                    </button>
+                                </Link>
+                                    
 
-                            <button 
-                            className="btn-remove-cg"
-                            onClick={() => removeItem(id)}
-                            >
-                                Remove This Campground
-                            </button>                              
+                                    <button 
+                                    className="btn-remove-cg"
+                                    onClick={() => removeItem(id)}
+                                    >
+                                        Remove This Campground
+                                    </button>
                         </div>
                     </div>     
 

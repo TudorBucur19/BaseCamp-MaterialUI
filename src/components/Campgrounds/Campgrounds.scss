@@ -29,6 +29,12 @@
         font-size: 1.8em;
     }
 
+    &__icon {
+        margin-bottom: -10px;
+        padding-bottom: 0;
+        font-size: 1.2em;
+    }
+
     button {
         @extend %button-add;
         @include button-size(1.2em, 0.7em)

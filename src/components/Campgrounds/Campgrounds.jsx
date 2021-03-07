@@ -3,6 +3,9 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import './Campgrounds.scss';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+import { FaCampground } from "react-icons/fa";
+
+
 
 
 const Campgrounds = () => {
@@ -15,7 +18,7 @@ const Campgrounds = () => {
             <Navbar/>
             <div className="content">
                 <header className="header">
-                    <h1 className="header__title">Welcome to BaseCamp</h1>
+                    <h1 className="header__title"><FaCampground className="header__icon"/> Welcome to BaseCamp</h1>
                     <p className="header__subtitle">View all the hand-pick campgrounds around the world</p>
                     <Link to="/newcampground">
                         <button className="btn-add">Add new campground</button>

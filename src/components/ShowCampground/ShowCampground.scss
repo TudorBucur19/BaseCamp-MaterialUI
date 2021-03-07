@@ -69,6 +69,18 @@
             font-size: 1.3em;
         }
 
+        
+    }
+
+    .info-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1%;
+        .btn-edit-cg {
+            @extend %button-add;
+            @include button-size(0.8em, 0.7em)
+        }
+
         .btn-remove-cg {
             @extend %button-danger;
             @include button-size(0.8em, 0.7em);
