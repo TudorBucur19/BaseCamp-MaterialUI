@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import firebase from '../utils/firebase';
+import firebase, { storage } from '../utils/firebase';
 
 export const CampgroundsContext = createContext();
 
@@ -8,21 +8,51 @@ const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
     const history = useHistory();
     const [campground, setCampground] = useState({});   
-    const campgroundsList = useEntries('Campgrounds');
-    
-        
+    const campgroundsList = useEntries('Campgrounds');      
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
 
+    // UPLOADING PHOTOS IN FIREBASE STORAGE
+    const handleFileChange = e => {
+        if(e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
 
+    const handleUpload = () => {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        const collectionRef = firebase.firestore().collection('MainImages');
+        uploadTask.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error);
+            },
+            () =>{
+                storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+                    collectionRef.add({ url: url });
+                    setUrl(url);
+                });
+            }
+        )
+    }
+
+    // ADDING THE OTHER CAMPGROUND INFO
     const handleChange = (event) => {
         const value = event.target.value;
         setCampground({
             ...campground,
-            [event.target.name]: value
+            [event.target.name]: value,
+            image: url
         });
     };
 
     
-    //ADDING CAMPGOUNDS TO DATABASE
+    //ADDING CAMPGROUNDS TO DATABASE
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -34,7 +64,6 @@ const CampgroundsContextProvider = (props) => {
            setCampground({
                name: "",
                price: "",
-               image: "",
                description: ""
            });
         })
@@ -80,6 +109,8 @@ const CampgroundsContextProvider = (props) => {
         handleChange,
         handleSubmit,
         removeItem,
+        handleFileChange,
+        handleUpload
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

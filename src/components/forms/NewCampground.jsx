@@ -4,13 +4,22 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import Navbar from '../navbar/Navbar';
 
 const AddNewCampground = () => {
-    const{ campground, handleChange, handleSubmit } = useContext(CampgroundsContext);
+    const { campground, handleChange, handleSubmit, handleFileChange, handleUpload } = useContext(CampgroundsContext);
 
     return (
         <div> 
             <Navbar/>
             <div className="form-container">
                 <h2>Create a New Campground</h2>
+                <div className="upload-image">
+                        <input 
+                        type="file"           
+                        onChange={handleFileChange}
+                        /> 
+                        <button onClick={handleUpload}>
+                            Upload
+                        </button>
+                </div>
                 <form className="new-item-form" onChange={handleChange} onSubmit={handleSubmit}>
                     <input 
                     type="text" 
@@ -25,13 +34,6 @@ const AddNewCampground = () => {
                     value={campground.price} 
                     placeholder="price"
                     />
-
-                    <input 
-                    type="text" 
-                    name="image" 
-                    value={campground.image} 
-                    placeholder="image url"
-                    /> 
 
                     <input 
                     type="text" 

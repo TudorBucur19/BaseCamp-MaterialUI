@@ -8,12 +8,14 @@ const CommentsContextProvider = (props) => {
     const history = useHistory();
     const [comment, setComment] = useState({});
     const allComments = useEntries('Comments');
+    const createdDate = new Date();
 
 
     const handleChangeComment = (event) => {
         setComment({
             commentID: event.target.id,
-            commentText: event.target.value
+            commentText: event.target.value,
+            createdAt: createdDate
         });   
     }
 
@@ -22,7 +24,7 @@ const CommentsContextProvider = (props) => {
 
         db.collection('Comments')
         .add({
-            comment
+            comment            
         })
         .then(() => {
            setComment({

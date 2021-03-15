@@ -12,6 +12,9 @@ const ShowCampground = () => {
     const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
     const comments = allComments.filter(comment => comment.comment.commentID === id);
+
+    const currentDate = new Date();
+   
         
     // if(!camp){
     //     return <p>Loading...</p>
