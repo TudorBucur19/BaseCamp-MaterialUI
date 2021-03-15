@@ -11,7 +11,8 @@ const AddNewCampground = () => {
             <Navbar/>
             <div className="form-container">
                 <h2>Create a New Campground</h2>
-                <div className="upload-image">
+
+                <div className="upload-image-form">
                         <input 
                         type="file"           
                         onChange={handleFileChange}
@@ -20,6 +21,7 @@ const AddNewCampground = () => {
                             Upload
                         </button>
                 </div>
+
                 <form className="new-item-form" onChange={handleChange} onSubmit={handleSubmit}>
                     <input 
                     type="text" 
