@@ -73,7 +73,7 @@ const ShowCampground = () => {
                         {comments && comments.map(comment =>
                         <div key={comment.id}>                     
                             <p className="campground-comments__author">
-                                <span><b>Author</b></span> 
+                                <span><b>{comment.comment.commentAuthor}</b></span> 
                                 <span>10 days ago</span>
                             </p>
                             <p>{comment.comment.commentText}</p> 

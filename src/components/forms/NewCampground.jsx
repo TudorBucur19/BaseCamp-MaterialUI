@@ -18,7 +18,7 @@ const AddNewCampground = () => {
                         onChange={handleFileChange}
                         /> 
                         <button onClick={handleUpload}>
-                            Upload
+                            Upload Photo
                         </button>
                 </div>
 

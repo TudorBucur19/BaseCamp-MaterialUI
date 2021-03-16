@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase from '../utils/firebase';
+import { AuthenticationContext } from './AuthenticationContext';
 export const CommentsContext = createContext();
 
 const CommentsContextProvider = (props) => {    
@@ -9,12 +10,14 @@ const CommentsContextProvider = (props) => {
     const [comment, setComment] = useState({});
     const allComments = useEntries('Comments');
     const createdDate = new Date();
+    const { userName } = useContext(AuthenticationContext)
 
 
     const handleChangeComment = (event) => {
         setComment({
             commentID: event.target.id,
             commentText: event.target.value,
+            commentAuthor: userName,
             createdAt: createdDate
         });   
     }

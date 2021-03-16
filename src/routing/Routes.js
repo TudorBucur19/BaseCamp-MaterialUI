@@ -7,6 +7,7 @@ import ShowCampground from '../components/showCampground/ShowCampground';
 import AddNewCampground from '../components/forms/NewCampground';
 import AddNewComment from '../components/forms/NewComment';
 import EditCampground from '../components/forms/EditCampground';
+import Login from '../components/forms/Login';
 
 export const ROUTES = [
     {
@@ -48,6 +49,13 @@ export const ROUTES = [
         path: "/campgrounds/:id/editcampground",
         exact: true,
         component: EditCampground
+    },
+
+    {
+        key: "login",
+        path: "/login",
+        exact: false,
+        component: Login
     }
 
     // {
