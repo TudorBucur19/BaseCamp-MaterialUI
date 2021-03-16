@@ -5,19 +5,19 @@ import { AuthenticationContext } from './AuthenticationContext';
 export const CommentsContext = createContext();
 
 const CommentsContextProvider = (props) => {    
+    const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
     const history = useHistory();
     const [comment, setComment] = useState({});
     const allComments = useEntries('Comments');
     const createdDate = new Date();
-    const { userName } = useContext(AuthenticationContext)
 
 
     const handleChangeComment = (event) => {
         setComment({
             commentID: event.target.id,
             commentText: event.target.value,
-            commentAuthor: userName,
+            commentAuthor: user.displayName,
             createdAt: createdDate
         });   
     }

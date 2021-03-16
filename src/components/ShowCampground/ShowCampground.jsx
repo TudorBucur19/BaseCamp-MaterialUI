@@ -44,7 +44,7 @@ const ShowCampground = () => {
                                 <span>$ {camp.campground.price} /night</span>
                             </h4>
                             <p>{camp.campground.description}</p>
-                            <p><em>Submited by Author</em></p>                               
+                            <p><em>{`Submited by ${camp.campground.author}`}</em></p>                               
                         </div>
                         <div className="info-buttons">
                                 <Link to={`/campgrounds/${id}/editcampground`}>
@@ -55,7 +55,6 @@ const ShowCampground = () => {
                                     </button>
                                 </Link>
                                     
-
                                     <button 
                                     className="btn-remove-cg"
                                     onClick={() => removeItem(id)}

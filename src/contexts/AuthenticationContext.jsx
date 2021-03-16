@@ -51,6 +51,11 @@ const AuthenticationContextProvider = (props) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
+      .then(function(result) {
+        return result.user.updateProfile({
+          displayName: userName
+        })
+      })
       .catch((err) => {
         switch(err.code) {
           case "auth/email-already-in-use":

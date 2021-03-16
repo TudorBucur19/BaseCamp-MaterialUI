@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
+import { AuthenticationContext } from './AuthenticationContext';
 
 export const CampgroundsContext = createContext();
 
@@ -11,6 +12,7 @@ const CampgroundsContextProvider = (props) => {
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
+    const { user } = useContext(AuthenticationContext);
 
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = e => {
@@ -47,7 +49,8 @@ const CampgroundsContextProvider = (props) => {
         setCampground({
             ...campground,
             [event.target.name]: value,
-            image: url
+            image: url,
+            author: user.displayName
         });
     };
 
