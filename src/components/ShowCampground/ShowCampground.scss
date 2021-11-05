@@ -21,6 +21,11 @@
 
 .info__list {
 
+    .active {
+        background-color: rgb(61, 131, 223);
+        color: white;
+    }
+
     li {
         padding: 4%;
         border: 1px solid $contentBorder;
@@ -34,9 +39,7 @@
 }
 
 .info-campground {
-    width: 78%;    
-    
-    
+    width: 78%;  
 }
 
 .info-campground__main {
@@ -44,6 +47,7 @@
     flex-direction: column;
     border: 1px solid $contentBorder;
     border-radius: 4px;
+    padding-bottom: 2%;
     
 
     img {
@@ -65,8 +69,21 @@
             font-size: 1.3em;
         }
 
-        .btn-danger {
+        
+    }
+
+    .info-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1%;
+        .btn-edit-cg {
+            @extend %button-add;
+            @include button-size(0.8em, 0.7em)
+        }
+
+        .btn-remove-cg {
             @extend %button-danger;
+            @include button-size(0.8em, 0.7em);
             align-self: flex-end;
         }
     }
@@ -75,23 +92,29 @@
 
 .campground-comments {
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: column;    
     margin-top: 2%;
     padding: 2% 1%;
     border: 1px solid $contentBorder;
     border-radius: 4px;
 
-    .btn-add {
-        @extend %button-add;
-        align-self: flex-end;
-        
+    a {
+        display: flex;
+        justify-content: flex-end;
+
+        .btn-add-comm {
+            @extend %button-add;
+            @include button-size(1em, 0.7em);
+        }    
+    }
+
+    .btn-remove-comm {
+        @extend %button-danger;
+        @include button-size(0.8em, 0.7em)
     }
 
     &__author {
         display: flex;
         justify-content: space-between;
-    }
-
-    
+    }   
 }

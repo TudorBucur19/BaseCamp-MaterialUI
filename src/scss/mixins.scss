@@ -8,3 +8,8 @@
         margin-right: 0;
     }
 }
+
+@mixin button-size($font, $padding) {
+    font-size: $font;
+    padding: $padding;
+}

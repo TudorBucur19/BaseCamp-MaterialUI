@@ -1,11 +1,13 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import SwitchRoutes from './SwitchRoutes';
 import LandingPage from '../components/landingPage/LandingPage';
 import Campgrounds from '../components/campgrounds/Campgrounds';
 import ShowCampground from '../components/showCampground/ShowCampground';
 import AddNewCampground from '../components/forms/NewCampground';
 import AddNewComment from '../components/forms/NewComment';
+import EditCampground from '../components/forms/EditCampground';
+import Login from '../components/forms/Login';
 
 export const ROUTES = [
     {
@@ -14,17 +16,25 @@ export const ROUTES = [
         exact: true,
         component: LandingPage 
     },
+    
     {
-        key: "campgrounds",
+        key: "campgrounds_root",
         path: "/campgrounds",
         exact: true,
-        component: Campgrounds,
+        component: Campgrounds 
     },
+    
     {
-        key: "campgroundid",
+        key: "showcampground",
         path: "/campgrounds/:id",
         exact: true,
         component: ShowCampground
+    },
+    {
+        key: "newcomment",
+        path: "/campgrounds/:id/newcomment",
+        exact: true,
+        component: AddNewComment
     },
     
     {
@@ -33,15 +43,66 @@ export const ROUTES = [
         exact: true,
         component: AddNewCampground
     },
+
     {
-        key: "newcomment",
-        path: "/campgrounds/:id/newcomment",
+        key: "editcampground",
+        path: "/campgrounds/:id/editcampground",
         exact: true,
-        component: AddNewComment
-    }        
+        component: EditCampground
+    },
+
+    {
+        key: "login",
+        path: "/login",
+        exact: false,
+        component: Login
+    }
+
+    // {
+    //     key: "landing",
+    //     path: "/",
+    //     exact: true,
+    //     component: LandingPage 
+    // },
+    // {
+    //     key: "campgrounds",
+    //     path: "/campgrounds",
+    //     component: SwitchRoutes,
+    //     routes: [
+    //         {
+    //             key: "campgrounds_root",
+    //             path: "/campgrounds",
+    //             exact: true,
+    //             component: Campgrounds 
+    //         },
+            
+    //         {
+    //             key: "campgroundid",
+    //             path: "/campgrounds/:id",
+    //             exact: true,
+    //             component: ShowCampground
+    //         },
+    //         {
+    //             key: "newcomment",
+    //             path: "/campgrounds/:id/newcomment",
+    //             exact: true,
+    //             component: AddNewComment
+    //         }        
+
+    //     ]
+        
+    // },    
+    
+    // {
+    //     key: "newcampground",
+    //     path: "/newcampground",
+    //     exact: true,
+    //     component: AddNewCampground
+    // }
+    
 ];
 
-const RoutesWithSubRoutes = (route) => {
+const RouteWithSubRoutes = (route) => {
     return ( 
         <Route
             path={route.path}
@@ -51,4 +112,4 @@ const RoutesWithSubRoutes = (route) => {
      );
 }
  
-export default RoutesWithSubRoutes;
+export default RouteWithSubRoutes;

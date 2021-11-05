@@ -2,12 +2,16 @@
 @import '../../scss/extends.scss';
 @import '../../scss/mixins.scss';
 
-.form-container {
+.login-container {
     display: flex;
     flex-direction: column;
     width: 20vw;
     height: 100vh;
     margin: 4% auto;
+
+    label {
+        margin-bottom: 2%;
+    }
 
     input {
         padding-top: 3%;
@@ -17,27 +21,21 @@
         border-color: $contentBorder;
     }
 
-    .upload-image-form {
-        display: flex;
-
+    .btn-container {
         button {
-            @extend %button-add;
-            margin-bottom: 3%;
-        }
-        
-    }
-
-    .new-item-form {
-        display: flex;
-        flex-direction: column;        
-
-        .btn-submit {
             @extend %button-add;
             width: 100%;
             border: none;
             font-size: 1.4em;
             height: 2.4em;
         }
-        
+
+        span {
+            cursor: pointer;
+        }
     }
+}
+
+.hidden {
+    display: none;
 }

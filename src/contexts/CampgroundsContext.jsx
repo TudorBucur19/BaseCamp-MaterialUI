@@ -1,37 +1,61 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import firebase from '../utils/firebase';
+import firebase, { storage } from '../utils/firebase';
+import { AuthenticationContext } from './AuthenticationContext';
 
 export const CampgroundsContext = createContext();
 
 const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
     const history = useHistory();
-    const [campground, setCampground] = useState({});
-    const [comment, setComment] = useState({});
-    const campgroundsList = useEntries('Campgrounds');
-    const allComments = useEntries('Comments');
-        
+    const [campground, setCampground] = useState({});   
+    const campgroundsList = useEntries('Campgrounds');      
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
+    const { user } = useContext(AuthenticationContext);
 
+    // UPLOADING PHOTOS IN FIREBASE STORAGE
+    const handleFileChange = e => {
+        if(e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
 
+    const handleUpload = () => {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        const collectionRef = firebase.firestore().collection('MainImages');
+        uploadTask.on(
+            "state_changed",
+            snapshot => {},
+            error => {
+                console.log(error);
+            },
+            () =>{
+                storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+                    collectionRef.add({ url: url });
+                    setUrl(url);
+                });
+            }
+        )
+    }
+
+    // ADDING THE OTHER CAMPGROUND INFO
     const handleChange = (event) => {
         const value = event.target.value;
         setCampground({
             ...campground,
-            [event.target.name]: value
+            [event.target.name]: value,
+            image: url,
+            author: user.displayName
         });
     };
 
-    const handleChangeComment = (event) => {
-        setComment({
-            commentID: event.target.id,
-            commentText: event.target.value
-        });
-        
-    }
-
-
-    //ADDING CAMPGOUNDS TO DATABASE
+    
+    //ADDING CAMPGROUNDS TO DATABASE
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -43,7 +67,6 @@ const CampgroundsContextProvider = (props) => {
            setCampground({
                name: "",
                price: "",
-               image: "",
                description: ""
            });
         })
@@ -73,9 +96,7 @@ const CampgroundsContextProvider = (props) => {
 
     //REMOVE ITEMS FROM DATABASE
     const removeItem = (id) => {
-        firebase
-        .firestore()
-        .collection('Campgrounds')
+        db.collection('Campgrounds')
         .doc(id)
         .delete()
         .then(() => console.log("Document was deleted"))
@@ -83,33 +104,16 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
-    const handleSubmitComment = (event) => {
-        event.preventDefault();
-
-        db.collection('Comments')
-        .add({
-            comment
-        })
-        .then(() => {
-           setComment({
-               commentID: "",
-               commentText: ""
-           });
-        })
-        history.goBack();
-    };
-
 
     const values = {
+        useEntries,
         campground,
         campgroundsList,
         handleChange,
         handleSubmit,
         removeItem,
-        comment,
-        handleChangeComment,        
-        handleSubmitComment,
-        allComments
+        handleFileChange,
+        handleUpload
     }
     return ( 
         <CampgroundsContext.Provider value={values}>
