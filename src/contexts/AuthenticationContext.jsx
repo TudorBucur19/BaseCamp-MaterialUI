@@ -19,6 +19,7 @@ const AuthenticationContextProvider = (props) => {
   const clearInputs = () => {
     setEmail('');
     setPassword('');
+    setUserName('');
   };
 
   const clearErrors = () => {
@@ -41,9 +42,9 @@ const AuthenticationContextProvider = (props) => {
           case "auth/wrong-password":
             setPasswordError(err.message);
             break;
+          default: console.log(err);
           }
       });
-      // history.push('/home');
   };
 
   const handleSignup = () => {
@@ -65,13 +66,13 @@ const AuthenticationContextProvider = (props) => {
           case "auth/weak-password":
             setPasswordError(err.message);
             break;
+          default: console.log(err);
           }
       });
   };
 
   const handleLogout = () =>  {
     firebase.auth().signOut();
-    // history.push('/');
   };
 
   const authListener = () => {

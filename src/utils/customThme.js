@@ -15,7 +15,18 @@ export const customTheme = {
           main: red[700]
         },
       },
+
       typography: {
         fontFamily: "'Arial', 'sans-serif'",
+        h3: {
+          '@media (max-width:600px)': {
+            fontSize: '1.5rem',
+          },
+        },
+        h5: {
+          '@media (max-width:600px)': {
+            fontSize: '1rem',
+          },
+      },      
       }
 };

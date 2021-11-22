@@ -10,13 +10,16 @@ const HeaderBanner = () => {
 
     return ( 
         <Box 
+        display="flex"
+        flexDirection="column"
         component="div" 
         bgcolor="rgb(229, 228, 226)" 
         borderRadius={2}
         p={4}
+        alignItems={{xs: 'center', sm: 'flex-start'}}
         >
-            <Typography variant="h3" component="h1" mb={1} fontFamily="RocknRoll One"><FaCampground/>Wellcome to BaseCamp</Typography>
-            <Typography variant="h5" component="h2" mb={8}>View all the hand-pick campgrounds around the world</Typography>
+            <Typography variant="h3" component="h1" mb={1} fontFamily="RocknRoll One" textAlign={ {xs: "center", sm: "left"}}><FaCampground/>Wellcome to BaseCamp</Typography>
+            <Typography variant="h5" component="h2" mb={{xs: 4, md: 8}} textAlign={ {xs: "center", sm: "left"}}>View all the hand-pick campgrounds around the world</Typography>
             <Button 
             startIcon={<AddOutlinedIcon/>} 
             variant="contained" 
