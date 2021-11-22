@@ -4,6 +4,12 @@ import Navbar from '../navbar/Navbar';
 import './Campgrounds.scss';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import { FaCampground } from "react-icons/fa";
+import CampCard from '../CampCard/CampCard';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { Container } from '@mui/material';
+import PrimarySearchAppBar from '../navbar/AppBar';
+import HeaderBanner from '../Common/HeaderBanner';
 
 
 
@@ -14,36 +20,25 @@ const Campgrounds = () => {
     
 
     return ( 
-        <div className="container">
-            <Navbar/>
-            <div className="content">
-                <header className="header">
-                    <h1 className="header__title"><FaCampground className="header__icon"/> Welcome to BaseCamp</h1>
-                    <p className="header__subtitle">View all the hand-pick campgrounds around the world</p>
-                    <Link to="/newcampground">
-                        <button className="btn-add">Add new campground</button>
-                    </Link>
-                </header>
+        <Container component="main" disableGutters={true} maxWidth="false">
+            <PrimarySearchAppBar/>
+            <Container maxWidth="lg" mt={4} sx={{marginTop: '30px'}}>
+                <HeaderBanner/>
 
-                <section className="campgrounds-grid">
+                <Box  py={4}>
+                    <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    {campgroundsList &&
+                            campgroundsList.map((campground)=> 
+                            <Grid item xs={12} sm={6} md={3}>
+                                <CampCard {...{campground, url}}/>
+                            </Grid>
+                            )
+                        }                    
+                    </Grid>
+                </Box>
 
-                {campgroundsList &&
-                        campgroundsList.map((campground)=> 
-                            <div key={campground.id} className="campgrounds-grid__thumbnail">
-                                <img src={campground.campground.image} alt="campground"/>
-                                <h3>{campground.campground.name}</h3>
-                                <p>{`${campground.campground.price} $ / night`}</p>
-                                <Link to={`${url}/${campground.id}`}>
-                                    <button>More info</button>
-                                </Link>                                
-                            </div>
-                        )
-                    }
-                    
-                </section>
-            </div>
-            
-        </div>
+            </Container>
+        </Container>
      );
 }
  
