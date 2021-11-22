@@ -2,13 +2,16 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
 import { AuthenticationContext } from './AuthenticationContext';
+import Alert from '@mui/material/Alert';
 
 export const CampgroundsContext = createContext();
 
 const CampgroundsContextProvider = (props) => {
     const db = firebase.firestore();
     const history = useHistory();
-    const [campground, setCampground] = useState({});   
+    const [campground, setCampground] = useState({
+        image: [],
+    });   
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
@@ -16,10 +19,12 @@ const CampgroundsContextProvider = (props) => {
 
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = e => {
-        if(e.target.files[0]) {
-            setImage(e.target.files[0]);
-        }
+        setImage(e.target.files[0]);
     };
+
+    useEffect(() => {
+      image && handleUpload();
+    }, [image]);
 
     const handleUpload = () => {
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
@@ -36,8 +41,11 @@ const CampgroundsContextProvider = (props) => {
                 .child(image.name)
                 .getDownloadURL()
                 .then(url => {
-                    collectionRef.add({ url: url });
-                    setUrl(url);
+                    //collectionRef.add({ url: url });
+                    setCampground({
+                        ...campground,
+                        image: [...campground.image, {name: image.name, url: url}],
+                    });
                 });
             }
         )
@@ -49,8 +57,6 @@ const CampgroundsContextProvider = (props) => {
         setCampground({
             ...campground,
             [event.target.name]: value,
-            image: url,
-            author: user.displayName
         });
     };
 
@@ -104,16 +110,35 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
+    const removeStorageFile = (fileName, index) => {
+        var imageRef = storage.ref(`images/${fileName}`);
+        try {
+            imageRef.delete().then(() => {
+                const currentUrls = campground.image.filter(item => item !== campground.image[index]);
+                setCampground({
+                    ...campground,
+                    image: [...currentUrls]
+                });
+            });
+            
+        } 
+        catch (error) {
+            console.log(error)
+        }
+    }
+
 
     const values = {
         useEntries,
+        image,
         campground,
         campgroundsList,
         handleChange,
         handleSubmit,
         removeItem,
         handleFileChange,
-        handleUpload
+        handleUpload,
+        removeStorageFile
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

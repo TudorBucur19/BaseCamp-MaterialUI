@@ -12,6 +12,7 @@ const ShowCampground = () => {
     const { id } = useParams(); 
     const camp = campgroundsList.find(campground => campground.id === id);
     const comments = allComments.filter(comment => comment.comment.commentID === id);
+    const image = camp.campground.image;
 
     const currentDate = new Date();
    
@@ -37,7 +38,7 @@ const ShowCampground = () => {
 
                 <div className="info-campground">
                     <div className="info-campground__main">
-                        <img src={camp.campground.image} alt="main photo"/>
+                        <img src={typeof image === 'object' ? image[0].url : image} alt="cover"/>
                         <div className="info-text">
                             <h4>
                                 <span className="info-text__title">{camp.campground.name}</span> 
