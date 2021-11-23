@@ -1,7 +1,5 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { createContext, useState, useEffect } from 'react';
 import firebase from '../utils/firebase';
-import { CampgroundsContext } from './CampgroundsContext';
 
 export const AuthenticationContext = createContext();
 
@@ -14,8 +12,6 @@ const AuthenticationContextProvider = (props) => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(false);
-
-  const history = useHistory();
 
   const clearInputs = () => {
     setEmail('');

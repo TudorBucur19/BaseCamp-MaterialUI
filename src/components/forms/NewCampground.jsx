@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+
 import PrimarySearchAppBar from '../navbar/AppBar';
 import ImageThumbnail from '../Common/ImageThumbnail';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
@@ -13,7 +13,7 @@ import FileInput from '../Common/FileInput';
 
 
 const AddNewCampground = () => {
-    const { campground, setImage, handleChange, handleSubmit, handleFileChange } = useContext(CampgroundsContext);
+    const { campground, setCampground, setImage, handleChange, handleSubmit, handleFileChange } = useContext(CampgroundsContext);
     const useStyles = makeStyles({
         fileInput: {
             display: 'none',
@@ -36,21 +36,8 @@ const AddNewCampground = () => {
                     Create a New Campground
                 </Typography>
                 <FileInput handleChange={handleFileChange} inputLabel={'Upload Photo'} setState={setImage}/>
-                {/* <Box display="flex" >
-                    <Button
-                    variant="contained"
-                    component="label"
-                    color="secondary"
-                    sx={{mb: 1, width: {xs: '100%', sm: '50%'}}}
-                    startIcon={<AddAPhotoOutlinedIcon/>}
-                    >
-                        Upload Photo
-                        <input type="file" className={classes.fileInput} onChange={handleFileChange}/>
-                    </Button>
-                    <Typography ml={2}>Choose an image</Typography>
-                </Box> */}
                 {campground.image.length > 0 && 
-                    <ImageThumbnail images={campground.image}/>
+                    <ImageThumbnail images={campground.image} collection={'images'} state={campground} setState={setCampground}/>
                 }
                 <form onChange={handleChange} onSubmit={handleSubmit}>
                     <TextField name="name" label="Name" value={campground.name} variant="outlined" margin="dense" color="borders" fullWidth/>

@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
-import { AuthenticationContext } from './AuthenticationContext';
-import Alert from '@mui/material/Alert';
 
 export const CampgroundsContext = createContext();
 
@@ -18,8 +16,7 @@ const CampgroundsContextProvider = (props) => {
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
     const [avatar, setAvatar] = useState(null);
-    const [url, setUrl] = useState("");
-
+    
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = (file, callback) => {
         callback(file);
@@ -45,15 +42,10 @@ const CampgroundsContextProvider = (props) => {
                 .child(img.name)
                 .getDownloadURL()
                 .then(url => {
-                    //collectionRef.add({ url: url });
                     callback({
                         ...state,
                         image: [...state.image, {name: img.name, url: url}],
                     })
-                    // setCampground({
-                    //     ...campground,
-                    //     image: [...campground.image, {name: image.name, url: url}],
-                    // });
                 });
             }
         )
@@ -118,13 +110,13 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
-    const removeStorageFile = (fileName, index) => {
-        var imageRef = storage.ref(`images/${fileName}`);
+    const removeStorageFile = (collectionName, fileName, index, state, callback) => {
+        var imageRef = storage.ref(`${collectionName}/${fileName}`);
         try {
             imageRef.delete().then(() => {
-                const currentUrls = campground.image.filter(item => item !== campground.image[index]);
-                setCampground({
-                    ...campground,
+                const currentUrls = state.image.filter(item => item !== state.image[index]);
+                callback({
+                    ...state,
                     image: [...currentUrls]
                 });
             });
@@ -133,7 +125,7 @@ const CampgroundsContextProvider = (props) => {
         catch (error) {
             console.log(error)
         }
-    }
+    };
 
 
     const values = {
