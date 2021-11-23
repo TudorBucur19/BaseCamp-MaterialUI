@@ -56,50 +56,7 @@ export const ROUTES = [
         path: "/login",
         exact: false,
         component: Login
-    }
-
-    // {
-    //     key: "landing",
-    //     path: "/",
-    //     exact: true,
-    //     component: LandingPage 
-    // },
-    // {
-    //     key: "campgrounds",
-    //     path: "/campgrounds",
-    //     component: SwitchRoutes,
-    //     routes: [
-    //         {
-    //             key: "campgrounds_root",
-    //             path: "/campgrounds",
-    //             exact: true,
-    //             component: Campgrounds 
-    //         },
-            
-    //         {
-    //             key: "campgroundid",
-    //             path: "/campgrounds/:id",
-    //             exact: true,
-    //             component: ShowCampground
-    //         },
-    //         {
-    //             key: "newcomment",
-    //             path: "/campgrounds/:id/newcomment",
-    //             exact: true,
-    //             component: AddNewComment
-    //         }        
-
-    //     ]
-        
-    // },    
-    
-    // {
-    //     key: "newcampground",
-    //     path: "/newcampground",
-    //     exact: true,
-    //     component: AddNewCampground
-    // }
-    
+    }    
 ];
 
 const RouteWithSubRoutes = (route) => {

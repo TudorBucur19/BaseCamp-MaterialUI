@@ -8,8 +8,8 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import { maxHeight } from '@mui/system';
 
 
-const ImageThumbnail = ({images}) => {
-    const { removeStorageFile } = useContext(CampgroundsContext)
+const ImageThumbnail = ({images, collection, state, setState}) => {
+    const { removeStorageFile } = useContext(CampgroundsContext);
     return ( 
         <ImageList sx={{ width: '100%', height: 'auto', maxHeight: 450 }} cols={2} rowHeight="auto" gap={5}>
         {images.map((item, index) => (
@@ -25,7 +25,7 @@ const ImageThumbnail = ({images}) => {
             actionIcon={
               <IconButton
                 color='danger'
-                onClick={() => removeStorageFile(item.name, index)}
+                onClick={() => removeStorageFile(collection, item.name, index, state, setState)}
               >
                 <HighlightOffOutlinedIcon />
               </IconButton>

@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
-import { AuthenticationContext } from './AuthenticationContext';
-import Alert from '@mui/material/Alert';
 
 export const CampgroundsContext = createContext();
 
@@ -12,23 +10,26 @@ const CampgroundsContextProvider = (props) => {
     const [campground, setCampground] = useState({
         image: [],
     });   
+    const [userAvatar, setUserAvatar] = useState({
+        image: [],
+    });
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
-    const [url, setUrl] = useState("");
-    const { user } = useContext(AuthenticationContext);
-
+    const [avatar, setAvatar] = useState(null);
+    
     // UPLOADING PHOTOS IN FIREBASE STORAGE
-    const handleFileChange = e => {
-        setImage(e.target.files[0]);
+    const handleFileChange = (file, callback) => {
+        callback(file);
     };
 
     useEffect(() => {
-      image && handleUpload();
-    }, [image]);
+      image && handleUpload('images', setCampground, campground, image);
+      avatar && handleUpload('usersAvatars', setUserAvatar, userAvatar, avatar);
+    }, [image, avatar]);
 
-    const handleUpload = () => {
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-        const collectionRef = firebase.firestore().collection('MainImages');
+    const handleUpload = (collectionName, callback, state, img) => {
+        const uploadTask = storage.ref(`${collectionName}/${img.name}`).put(img);
+        //const collectionRef = firebase.firestore().collection('MainImages');
         uploadTask.on(
             "state_changed",
             snapshot => {},
@@ -37,15 +38,14 @@ const CampgroundsContextProvider = (props) => {
             },
             () =>{
                 storage
-                .ref("images")
-                .child(image.name)
+                .ref(collectionName)
+                .child(img.name)
                 .getDownloadURL()
                 .then(url => {
-                    //collectionRef.add({ url: url });
-                    setCampground({
-                        ...campground,
-                        image: [...campground.image, {name: image.name, url: url}],
-                    });
+                    callback({
+                        ...state,
+                        image: [...state.image, {name: img.name, url: url}],
+                    })
                 });
             }
         )
@@ -110,13 +110,13 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
-    const removeStorageFile = (fileName, index) => {
-        var imageRef = storage.ref(`images/${fileName}`);
+    const removeStorageFile = (collectionName, fileName, index, state, callback) => {
+        var imageRef = storage.ref(`${collectionName}/${fileName}`);
         try {
             imageRef.delete().then(() => {
-                const currentUrls = campground.image.filter(item => item !== campground.image[index]);
-                setCampground({
-                    ...campground,
+                const currentUrls = state.image.filter(item => item !== state.image[index]);
+                callback({
+                    ...state,
                     image: [...currentUrls]
                 });
             });
@@ -125,14 +125,20 @@ const CampgroundsContextProvider = (props) => {
         catch (error) {
             console.log(error)
         }
-    }
+    };
 
 
     const values = {
         useEntries,
         image,
+        setImage,
+        avatar,
+        setAvatar,
         campground,
+        setCampground,
         campgroundsList,
+        userAvatar,
+        setUserAvatar,
         handleChange,
         handleSubmit,
         removeItem,
