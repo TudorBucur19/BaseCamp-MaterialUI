@@ -12,23 +12,27 @@ const CampgroundsContextProvider = (props) => {
     const [campground, setCampground] = useState({
         image: [],
     });   
+    const [userAvatar, setUserAvatar] = useState({
+        image: [],
+    });
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
+    const [avatar, setAvatar] = useState(null);
     const [url, setUrl] = useState("");
-    const { user } = useContext(AuthenticationContext);
 
     // UPLOADING PHOTOS IN FIREBASE STORAGE
-    const handleFileChange = e => {
-        setImage(e.target.files[0]);
+    const handleFileChange = (file, callback) => {
+        callback(file);
     };
 
     useEffect(() => {
-      image && handleUpload();
-    }, [image]);
+      image && handleUpload('images', setCampground, campground, image);
+      avatar && handleUpload('usersAvatars', setUserAvatar, userAvatar, avatar);
+    }, [image, avatar]);
 
-    const handleUpload = () => {
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-        const collectionRef = firebase.firestore().collection('MainImages');
+    const handleUpload = (collectionName, callback, state, img) => {
+        const uploadTask = storage.ref(`${collectionName}/${img.name}`).put(img);
+        //const collectionRef = firebase.firestore().collection('MainImages');
         uploadTask.on(
             "state_changed",
             snapshot => {},
@@ -37,15 +41,19 @@ const CampgroundsContextProvider = (props) => {
             },
             () =>{
                 storage
-                .ref("images")
-                .child(image.name)
+                .ref(collectionName)
+                .child(img.name)
                 .getDownloadURL()
                 .then(url => {
                     //collectionRef.add({ url: url });
-                    setCampground({
-                        ...campground,
-                        image: [...campground.image, {name: image.name, url: url}],
-                    });
+                    callback({
+                        ...state,
+                        image: [...state.image, {name: img.name, url: url}],
+                    })
+                    // setCampground({
+                    //     ...campground,
+                    //     image: [...campground.image, {name: image.name, url: url}],
+                    // });
                 });
             }
         )
@@ -131,8 +139,14 @@ const CampgroundsContextProvider = (props) => {
     const values = {
         useEntries,
         image,
+        setImage,
+        avatar,
+        setAvatar,
         campground,
+        setCampground,
         campgroundsList,
+        userAvatar,
+        setUserAvatar,
         handleChange,
         handleSubmit,
         removeItem,

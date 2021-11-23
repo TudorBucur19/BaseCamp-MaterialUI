@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase from '../utils/firebase';
+import { CampgroundsContext } from './CampgroundsContext';
 
 export const AuthenticationContext = createContext();
 
@@ -47,14 +48,15 @@ const AuthenticationContextProvider = (props) => {
       });
   };
 
-  const handleSignup = () => {
+  const handleSignup = (userPhoto) => {
     clearErrors();
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function(result) {
         return result.user.updateProfile({
-          displayName: userName
+          displayName: userName,
+          photoURL: userPhoto,
         })
       })
       .catch((err) => {
