@@ -1,17 +1,18 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import firebase from '../utils/firebase';
 
 export const AuthenticationContext = createContext();
 
 const AuthenticationContextProvider = (props) => {
-
   const [user, setUser] = useState('');
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [hasAccount, setHasAccount] = useState(false);
+  const [hasAccount, setHasAccount] = useState(true);
+  const history = useHistory();
 
   const clearInputs = () => {
     setEmail('');
@@ -41,7 +42,8 @@ const AuthenticationContextProvider = (props) => {
             break;
           default: console.log(err);
           }
-      });
+      })
+      .then(history.push('/campgrounds'));
   };
 
   const handleSignup = (userPhoto) => {

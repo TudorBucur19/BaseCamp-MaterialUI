@@ -17,7 +17,7 @@ const FileInput = ({ handleChange, inputLabel, setState}) => {
     return ( 
         <Box display="flex" mt={1}>
             <Button
-            variant="contained"
+            variant="outlined"
             component="label"
             color="secondary"
             sx={{mb: 1, width: {xs: '100%', sm: '50%'}}}

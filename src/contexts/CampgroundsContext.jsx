@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
 
@@ -16,6 +16,7 @@ const CampgroundsContextProvider = (props) => {
     const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
     const [avatar, setAvatar] = useState(null);
+    const [comment, setComment] = useState({});
     
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = (file, callback) => {
@@ -59,6 +60,27 @@ const CampgroundsContextProvider = (props) => {
             [event.target.name]: value,
         });
     };
+
+    //ADD NEW COMMENT TO CAMPGROUND
+    const handleCommentChange = (event, currentUser, date) => {
+        const value = event.target.value;
+        setComment({
+            [event.target.name]: value,
+            author: currentUser,
+            createdAt: date,
+        })
+    };
+
+    const handleCommentSubmit = (collection, docID) => {
+        firebase.firestore()
+        .collection(collection)
+        .doc(docID)
+        .update({
+            comments: firebase.firestore.FieldValue.arrayUnion(comment),
+        });
+        setComment('')
+    }
+
 
     
     //ADDING CAMPGROUNDS TO DATABASE
@@ -144,7 +166,9 @@ const CampgroundsContextProvider = (props) => {
         removeItem,
         handleFileChange,
         handleUpload,
-        removeStorageFile
+        removeStorageFile,
+        handleCommentChange,
+        handleCommentSubmit
     }
     return ( 
         <CampgroundsContext.Provider value={values}>
