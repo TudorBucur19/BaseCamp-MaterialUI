@@ -88,7 +88,7 @@ const Login = () => {
                         <Button variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth onClick={() => handleSignup(userAvatar.image[0].url)}>
                             Sign Up
                         </Button>
-                        <Typography >Have an account ? <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign in</Button></Typography>
+                        <Typography >Already have an account ? <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign in</Button></Typography>
                         </>
                     )}
                 </Box>

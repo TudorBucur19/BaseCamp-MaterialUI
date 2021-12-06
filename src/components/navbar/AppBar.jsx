@@ -15,6 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LoginIcon from '@mui/icons-material/Login';
 import { makeStyles } from '@material-ui/styles';
+import { FaCampground } from "react-icons/fa";
 
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { Link } from 'react-router-dom';
@@ -162,6 +163,7 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }} >
       <AppBar position="sticky" className={classes.header} elevation="false">
         <Toolbar>
+          
           <IconButton
             size="large"
             edge="start"
@@ -169,7 +171,8 @@ export default function PrimarySearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <FaCampground/>
+            {/* <MenuIcon /> */}
           </IconButton>
           <Link to="/campgrounds" className={classes.link}>
             <Typography

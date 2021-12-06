@@ -1,98 +1,101 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { Container } from '@mui/material';
+import InfoAccordion from '../Common/InfoAccordion';
+import CommentItem from '../Common/CommentItem';
+import CommentForm from '../forms/CommentForm';
+import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import { CommentsContext } from '../../contexts/CommentsContext';
-import Navbar from '../navbar/Navbar';
-import './ShowCampground.scss';
+import PrimarySearchAppBar from '../navbar/AppBar';
 
 
 const ShowCampground = () => {
-    const { campgroundsList, removeItem } = useContext(CampgroundsContext);
-    const { allComments, removeComment } = useContext(CommentsContext);
+    const { campgroundsList } = useContext(CampgroundsContext);
+    const { user } = useContext(AuthenticationContext);
+    const { removeComment } = useContext(CommentsContext);
     const { id } = useParams(); 
-    const camp = campgroundsList.find(campground => campground.id === id);
-    const comments = allComments.filter(comment => comment.comment.commentID === id);
-    const image = camp.campground.image;
-
+    const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
+    const comments = camp && camp.comments;
+    const image = camp && camp.campground.image;
     const currentDate = new Date();
-   
-        
-    // if(!camp){
-    //     return <p>Loading...</p>
-    // }
-   
+      
     return ( 
         <>        
-        {camp && <div>
-            <Navbar/>            
-            <div className="wrapper">
-                <div className="info">
-                    <h3>BaseCamp</h3>
-                    <div className="info__list">
-                        <li className="active">Info 1</li>
-                        <li>Info 2</li>
-                        <li>Info 3</li>
-                    </div>
-                    
-                </div>
-
-                <div className="info-campground">
-                    <div className="info-campground__main">
-                        <img src={typeof image === 'object' ? image[0].url : image} alt="cover"/>
-                        <div className="info-text">
-                            <h4>
-                                <span className="info-text__title">{camp.campground.name}</span> 
-                                <span>$ {camp.campground.price} /night</span>
-                            </h4>
-                            <p>{camp.campground.description}</p>
-                            <p><em>{`Submited by ${camp.campground.author}`}</em></p>                               
-                        </div>
-                        <div className="info-buttons">
-                                <Link to={`/campgrounds/${id}/editcampground`}>
-                                    <button 
-                                    className="btn-edit-cg"
-                                    >
-                                        Edit Campground
-                                    </button>
-                                </Link>
-                                    
-                                    <button 
-                                    className="btn-remove-cg"
-                                    onClick={() => removeItem(id)}
-                                    >
-                                        Remove This Campground
-                                    </button>
-                        </div>
-                    </div>     
-
-                    <div className="campground-comments">
-                        <Link to={`/campgrounds/${id}/newcomment`}>
-                            <button className="btn-add-comm">Add New Comment</button>
-                        </Link>
-                        
-                        {comments && comments.map(comment =>
-                        <div key={comment.id}>                     
-                            <p className="campground-comments__author">
-                                <span><b>{comment.comment.commentAuthor}</b></span> 
-                                <span>10 days ago</span>
-                            </p>
-                            <p>{comment.comment.commentText}</p> 
-                            <button 
-                            className="btn-remove-comm"
-                            onClick={() => removeComment(comment.id)}
-                            >
-                                Remove
-                            </button>                 
-                        </div>
-                        )}
-                    </div>
-                </div>
-            </div>           
+        {camp && 
+        <div>
+            <PrimarySearchAppBar/>
+            <Container sx={{mb: "2rem"}}>    
+                <Grid container spacing={4} mt={1}>
+                    <Grid item xs={12} md={4}>                        
+                        <InfoAccordion/>                        
+                    </Grid>
+                    <Grid item xs={12} md={8}>                
+                        <Card >
+                            <CardMedia
+                                component="img"
+                                height="fit-content"
+                                image={typeof image === 'object' ? image[0].url : image}
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Box display="flex" justifyContent="space-between">
+                                    <Typography gutterBottom variant="h5" component="div" fontWeight="bold" color="info.main">
+                                        {camp.campground.name}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        $ {camp.campground.price} /night
+                                    </Typography>
+                                </Box>
+                                <Typography variant="body2" color="text.secondary">
+                                {camp.campground.description}
+                                </Typography>
+                                
+                                <Typography mt={2} fontWeight="bold">
+                                    {`submitted by: ${camp.campground.author}`}
+                                </Typography>
+                                
+                            </CardContent>
+                            <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
+                                <Stack direction="row" spacing={1}>
+                                    <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
+                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon/></IconButton>
+                                </Stack>
+                            </CardActions>
+                        </Card>
+                        {comments && comments.length > 0 &&
+                        <Paper sx={{mt: 2, p: 2, display: "flex", flexDirection: "column"}} >
+                            {comments.map((comment) => 
+                                <CommentItem 
+                                key={comment.id}
+                                comment={comment}
+                                handleClick={removeComment}
+                                />
+                            )}
+                        </Paper>
+                        }
+                        {user &&
+                            <CommentForm author={"Tudor"} campID={id}/>
+                        }
+                    </Grid>
+                </Grid>     
+            </Container>   
         </div>
         }
-        </>
-                    
+        </>                    
      );
-}
+};
  
 export default ShowCampground;
