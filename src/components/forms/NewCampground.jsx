@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -10,10 +10,12 @@ import PrimarySearchAppBar from '../navbar/AppBar';
 import ImageThumbnail from '../Common/ImageThumbnail';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import FileInput from '../Common/FileInput';
+import MapContainer from '../Common/MapContainer';
 
 
 const AddNewCampground = () => {
-    const { campground, setCampground, setImage, handleChange, handleSubmit, handleFileChange } = useContext(CampgroundsContext);
+    const { campground, setCampground, setImage, handleChange, handleSubmit, handleFileChange, getClickCoords } = useContext(CampgroundsContext);
+
     const useStyles = makeStyles({
         fileInput: {
             display: 'none',
@@ -43,7 +45,10 @@ const AddNewCampground = () => {
                     <TextField name="name" label="Name" value={campground.name} variant="outlined" margin="dense" color="borders" fullWidth/>
                     <TextField name="price" label="Price" variant="outlined" type="number" margin="dense" color="borders" fullWidth/>
                     <TextField name="description" label="Description" variant="outlined" margin="dense" multiline minRows="2" color="borders" fullWidth/>
-                    
+                    <Box>
+                        <Typography>Provide location</Typography>
+                        <MapContainer width="100%" height="200px" onClick={getClickCoords} coords={campground.coords} />
+                    </Box>
                     <Button type="submit" variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth>
                         Submit
                     </Button>

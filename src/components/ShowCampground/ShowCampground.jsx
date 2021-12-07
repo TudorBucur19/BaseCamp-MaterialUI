@@ -31,6 +31,7 @@ const ShowCampground = () => {
     const comments = camp && camp.comments;
     const image = camp && camp.campground.image;
     const currentDate = new Date();
+    const ownership = camp && user && camp.campground.author === user.displayName;
       
     return ( 
         <>        
@@ -40,7 +41,7 @@ const ShowCampground = () => {
             <Container sx={{mb: "2rem"}}>    
                 <Grid container spacing={4} mt={1}>
                     <Grid item xs={12} md={4}>                        
-                        <InfoAccordion/>                        
+                        <InfoAccordion campground={camp}/>                        
                     </Grid>
                     <Grid item xs={12} md={8}>                
                         <Card >
@@ -65,14 +66,16 @@ const ShowCampground = () => {
                                 
                                 <Typography mt={2} fontWeight="bold">
                                     {`submitted by: ${camp.campground.author}`}
-                                </Typography>
-                                
+                                </Typography>                                
                             </CardContent>
+                            
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
+                                {ownership &&
                                 <Stack direction="row" spacing={1}>
                                     <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
                                     <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon/></IconButton>
                                 </Stack>
+                                }
                             </CardActions>
                         </Card>
                         {comments && comments.length > 0 &&

@@ -161,7 +161,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="sticky" className={classes.header} elevation="false">
+      <AppBar position="sticky" className={classes.header} elevation={0}>
         <Toolbar>
           
           <IconButton

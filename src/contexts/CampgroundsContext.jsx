@@ -1,14 +1,17 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase, { storage } from '../utils/firebase';
+import { AuthenticationContext } from './AuthenticationContext';
 
 export const CampgroundsContext = createContext();
 
 const CampgroundsContextProvider = (props) => {
+    const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
     const history = useHistory();
     const [campground, setCampground] = useState({
         image: [],
+        author: user.displayName,
     });   
     const [userAvatar, setUserAvatar] = useState({
         image: [],
@@ -50,7 +53,18 @@ const CampgroundsContextProvider = (props) => {
                 });
             }
         )
-    }
+    };
+
+    // GETTING CAMPGROUND GPS COORDINATES
+    const getClickCoords = (e) => {
+        setCampground({
+            ...campground,
+            coords: {
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng()
+            }
+        });
+    };
 
     // ADDING THE OTHER CAMPGROUND INFO
     const handleChange = (event) => {
@@ -168,7 +182,8 @@ const CampgroundsContextProvider = (props) => {
         handleUpload,
         removeStorageFile,
         handleCommentChange,
-        handleCommentSubmit
+        handleCommentSubmit,
+        getClickCoords
     }
     return ( 
         <CampgroundsContext.Provider value={values}>
