@@ -3,25 +3,28 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MapContainer from './MapContainer';
+import { FaCampground } from "react-icons/fa";
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 
 
-const InfoAccordion = () => {
+const InfoAccordion = ({ campground }) => {
     return ( 
     <div>
         <Accordion>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon/>}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Info 1</Typography>
+            <MapOutlinedIcon/><Typography ml={1}>Location</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <Box>
+              <MapContainer height="300px" width="100%" coords={campground.campground.coords} />
+            </Box>
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -54,7 +57,8 @@ const InfoAccordion = () => {
             </Typography>
           </AccordionDetails>
         </Accordion>
-      </div> );
+      </div> 
+    );
 }
  
 export default InfoAccordion;

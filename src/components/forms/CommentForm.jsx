@@ -10,7 +10,6 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 const CommentForm = ({author, campID}) => {
     const { user } = useContext(AuthenticationContext);
     const { handleCommentChange, handleCommentSubmit, comment } = useContext(CampgroundsContext);
-    console.log(comment)
     
     return ( 
         <Paper sx={{mt: 2, p: 2, display: "flex", flexDirection: "column"}}>
@@ -33,6 +32,7 @@ const CommentForm = ({author, campID}) => {
                         <Button 
                         variant="outlined" 
                         color="secondary"
+                        //disabled={comment}
                         onClick={() => handleCommentSubmit('Campgrounds', campID)}
                         >
                             <AddCommentOutlinedIcon/>
