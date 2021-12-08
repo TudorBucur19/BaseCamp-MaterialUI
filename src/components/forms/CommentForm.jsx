@@ -32,7 +32,7 @@ const CommentForm = ({ campID }) => {
                         <Button 
                         variant="outlined" 
                         color="secondary"
-                        //disabled={comment}
+                        disabled={!comment?.comment}
                         onClick={() => handleCommentsUpdate('Campgrounds', campID, 'add', comment)}
                         >
                             <AddCommentOutlinedIcon/>

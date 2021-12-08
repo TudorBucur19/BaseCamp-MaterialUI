@@ -1,11 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import SwitchRoutes from './SwitchRoutes';
 import LandingPage from '../components/landingPage/LandingPage';
 import Campgrounds from '../components/Campgrounds/Campgrounds';
 import ShowCampground from '../components/ShowCampground/ShowCampground';
 import AddNewCampground from '../components/forms/NewCampground';
-import AddNewComment from '../components/forms/NewComment';
 import EditCampground from '../components/forms/EditCampground';
 import Login from '../components/forms/Login';
 
@@ -30,13 +28,7 @@ export const ROUTES = [
         exact: true,
         component: ShowCampground
     },
-    {
-        key: "newcomment",
-        path: "/campgrounds/:id/newcomment",
-        exact: true,
-        component: AddNewComment
-    },
-    
+        
     {
         key: "newcampground",
         path: "/newcampground",

@@ -5,10 +5,11 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MapContainer from './MapContainer';
-import { FaCampground } from "react-icons/fa";
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
+import { FaCampground } from "react-icons/fa";
+
+import MapContainer from './MapContainer';
 
 
 const InfoAccordion = ({ campground }) => {

@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+
+import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import PrimarySearchAppBar from '../navbar/AppBar';
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import FileInput from '../Common/FileInput';
-import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import ImageThumbnail from '../Common/ImageThumbnail';
 
 const Login = () => {
@@ -78,17 +79,39 @@ const Login = () => {
                     <Box>
                     {hasAccount ? (
                         <>
-                        <Button variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth onClick={handleLogin}>
+                        <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        size="large" 
+                        sx={{mt: 1}}
+                        fullWidth 
+                        onClick={handleLogin}
+                        >
                             Sign In
                         </Button>
-                        <Typography mt={3}>Don't have an account ? <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign up</Button></Typography>
+                        <Typography 
+                        mt={3}
+                        >
+                            Don't have an account ? 
+                            <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign up</Button>
+                        </Typography>
                         </>   
                     ) : (
                         <>
-                        <Button variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth onClick={() => handleSignup(userAvatar.image[0].url)}>
+                        <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        size="large" 
+                        sx={{mt: 1}} 
+                        fullWidth 
+                        onClick={() => handleSignup(userAvatar.image[0].url)}
+                        >
                             Sign Up
                         </Button>
-                        <Typography >Already have an account ? <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign in</Button></Typography>
+                        <Typography>
+                            Already have an account ? 
+                            <Button variant="text" color="secondary" onClick={() => setHasAccount(!hasAccount)}>Sign in</Button>
+                        </Typography>
                         </>
                     )}
                 </Box>

@@ -1,23 +1,19 @@
 import React, { useContext } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import Navbar from '../navbar/Navbar';
-import './Campgrounds.scss';
-import { CampgroundsContext } from '../../contexts/CampgroundsContext';
-import { FaCampground } from "react-icons/fa";
-import CampCard from '../CampCard/CampCard';
+import { useRouteMatch } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
+import { FaCampground } from "react-icons/fa";
+
+import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+import CampCard from '../CampCard/CampCard';
 import PrimarySearchAppBar from '../navbar/AppBar';
 import HeaderBanner from '../Common/HeaderBanner';
 
 
-
-
 const Campgrounds = () => {
     const { campgroundsList } = useContext(CampgroundsContext);
-    const { url } = useRouteMatch();
-    
+    const { url } = useRouteMatch();    
 
     return ( 
         <Container component="main" disableGutters={true} maxWidth="false">

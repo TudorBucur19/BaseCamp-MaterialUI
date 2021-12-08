@@ -11,7 +11,6 @@ const CampgroundsContextProvider = (props) => {
     const history = useHistory();
     const [campground, setCampground] = useState({
         image: [],
-        author: user.displayName,
     });   
     const [userAvatar, setUserAvatar] = useState({
         image: [],
@@ -71,6 +70,7 @@ const CampgroundsContextProvider = (props) => {
         const value = event.target.value;
         setCampground({
             ...campground,
+            author: user.displayName,
             [event.target.name]: value,
         });
     };

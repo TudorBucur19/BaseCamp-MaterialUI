@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,24 +13,38 @@ import Stack from '@mui/material/Stack';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Container } from '@mui/material';
+
 import InfoAccordion from '../Common/InfoAccordion';
 import CommentItem from '../Common/CommentItem';
 import CommentForm from '../forms/CommentForm';
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
-import { CommentsContext } from '../../contexts/CommentsContext';
 import PrimarySearchAppBar from '../navbar/AppBar';
+import DialogBox from '../Common/DialogBox';
 
 
 const ShowCampground = () => {
     const { campgroundsList, handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
     const { user } = useContext(AuthenticationContext);
-    //const { removeComment } = useContext(CommentsContext);
     const { id } = useParams(); 
     const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
     const comments = camp && camp.comments;
     const image = camp && camp.campground.image;
     const ownership = camp && user && camp.campground.author === user.displayName;
+    const [open, setOpen] = useState(false);
+    
+    const dialogTextContent = {
+        deleteCampMsg: "You are about to remove this campground and it's data. Are you sure?",
+        campHeader: "Remove this Campground?"
+    }
+    
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
       
     return ( 
         <>        
@@ -72,7 +86,7 @@ const ShowCampground = () => {
                                 {ownership &&
                                 <Stack direction="row" spacing={1}>
                                     <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
-                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={() => removeItem(id)}/></IconButton>
+                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={handleClickOpen}/></IconButton>
                                 </Stack>
                                 }
                             </CardActions>
@@ -93,7 +107,8 @@ const ShowCampground = () => {
                             <CommentForm campID={id}/>
                         }
                     </Grid>
-                </Grid>     
+                </Grid>  
+                <DialogBox {...{open, handleClose, dialogTextContent}} onAgree={removeItem} identifier={id}/>     
             </Container>   
         </div>
         }
