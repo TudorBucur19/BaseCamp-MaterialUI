@@ -46,7 +46,7 @@ const AddNewCampground = () => {
                     <TextField name="price" label="Price" variant="outlined" type="number" margin="dense" color="borders" fullWidth/>
                     <TextField name="description" label="Description" variant="outlined" margin="dense" multiline minRows="2" color="borders" fullWidth/>
                     <Box>
-                        <Typography>Provide location</Typography>
+                        <Typography color="text.secondary">Choose location</Typography>
                         <MapContainer width="100%" height="200px" onClick={getClickCoords} coords={campground.coords} />
                     </Box>
                     <Button type="submit" variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth>

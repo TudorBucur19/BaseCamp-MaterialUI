@@ -26,7 +26,7 @@ const FileInput = ({ handleChange, inputLabel, setState}) => {
                 {inputLabel}
                 <input type="file" className={classes.fileInput} onChange={(e) => handleChange(e.target.files[0], setState)}/>
             </Button>
-            <Typography ml={2}>Choose an image</Typography>
+            <Typography ml={2} color="text.secondary">Choose an image</Typography>
         </Box> 
      );
 }

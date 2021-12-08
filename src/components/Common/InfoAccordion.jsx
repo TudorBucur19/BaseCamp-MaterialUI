@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MapContainer from './MapContainer';
 import { FaCampground } from "react-icons/fa";
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 
 
 const InfoAccordion = ({ campground }) => {
@@ -22,9 +23,15 @@ const InfoAccordion = ({ campground }) => {
             <MapOutlinedIcon/><Typography ml={1}>Location</Typography>
           </AccordionSummary>
           <AccordionDetails>
+            {campground.campground.coords ?
             <Box>
               <MapContainer height="300px" width="100%" coords={campground.campground.coords} />
             </Box>
+            :
+            <Box display="flex">
+              <SentimentDissatisfiedOutlinedIcon/><Typography ml={2}>Location is not provided</Typography>
+            </Box>
+            }
           </AccordionDetails>
         </Accordion>
         <Accordion>

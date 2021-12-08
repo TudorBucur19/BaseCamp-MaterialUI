@@ -7,14 +7,14 @@ import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 
-const CommentForm = ({author, campID}) => {
+const CommentForm = ({ campID }) => {
     const { user } = useContext(AuthenticationContext);
-    const { handleCommentChange, handleCommentSubmit, comment } = useContext(CampgroundsContext);
+    const { handleCommentChange, comment, handleCommentsUpdate } = useContext(CampgroundsContext);
     
     return ( 
         <Paper sx={{mt: 2, p: 2, display: "flex", flexDirection: "column"}}>
             <Box display="flex">
-                <Avatar alt={author} src="/static/images/avatar/1.jpg" sx={{ width: 30, height: 30, mr: 2 }}/>
+                <Avatar alt={user.displayName} src={ user.photoURL ? user.photoURL : "/static/images/avatar/1.jpg"} sx={{ width: 30, height: 30, mr: 2 }}/>
                 <Box component="form" flexGrow="1" display="flex" flexDirection="column" alignItems="flex-end">
                     <TextField 
                     name="comment" 
@@ -25,15 +25,15 @@ const CommentForm = ({author, campID}) => {
                     minRows="2" 
                     color="borders" 
                     fullWidth
-                    value={comment}
-                    onChange={(e) => handleCommentChange(e, user.displayName, new Date())}
+                    value={comment?.comment}
+                    onChange={(e) => handleCommentChange(e, user.displayName)}
                     />
                     <Box mt={1}>
                         <Button 
                         variant="outlined" 
                         color="secondary"
                         //disabled={comment}
-                        onClick={() => handleCommentSubmit('Campgrounds', campID)}
+                        onClick={() => handleCommentsUpdate('Campgrounds', campID, 'add', comment)}
                         >
                             <AddCommentOutlinedIcon/>
                         </Button>

@@ -76,24 +76,51 @@ const CampgroundsContextProvider = (props) => {
     };
 
     //ADD NEW COMMENT TO CAMPGROUND
-    const handleCommentChange = (event, currentUser, date) => {
+    const handleCommentChange = (event, currentUser) => {
         const value = event.target.value;
         setComment({
             [event.target.name]: value,
             author: currentUser,
-            createdAt: date,
+            createdAt: new Date(),
         })
     };
 
-    const handleCommentSubmit = (collection, docID) => {
+    const editCommentsArray = (action, content) => {
+        if(action === 'remove') {
+            return firebase.firestore.FieldValue.arrayRemove(content);
+        }
+        return firebase.firestore.FieldValue.arrayUnion(content);
+    };
+
+    const handleCommentsUpdate = (collection, docID, action, content) => {
         firebase.firestore()
         .collection(collection)
         .doc(docID)
         .update({
-            comments: firebase.firestore.FieldValue.arrayUnion(comment),
+            comments: editCommentsArray(action, content),
         });
-        setComment('')
-    }
+        setComment({});
+    };
+
+    // const handleCommentSubmit = (collection, docID) => {
+    //     firebase.firestore()
+    //     .collection(collection)
+    //     .doc(docID)
+    //     .update({
+    //         comments: firebase.firestore.FieldValue.arrayUnion(comment),
+    //     });
+    //     setComment('')
+    // };
+
+    // const removeComment = (collection, docID, content) => {
+    //     firebase.firestore()
+    //     .collection(collection)
+    //     .doc(docID)
+    //     .update({
+    //         comments: firebase.firestore.FieldValue.arrayRemove(content),
+    //     });
+    // }
+
 
 
     
@@ -182,8 +209,11 @@ const CampgroundsContextProvider = (props) => {
         handleUpload,
         removeStorageFile,
         handleCommentChange,
-        handleCommentSubmit,
-        getClickCoords
+        //handleCommentSubmit,
+        getClickCoords,
+        //removeComment,
+        handleCommentsUpdate,
+        comment,
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

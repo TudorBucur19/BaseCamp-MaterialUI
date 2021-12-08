@@ -7,7 +7,7 @@ import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 
-const CommentItem = ({ comment, handleClick }) => {
+const CommentItem = ({ comment, removeComment, campgroundID }) => {
     const { user } = useContext(AuthenticationContext);
     const ownership = comment.author === user.displayName;
     return ( 
@@ -24,7 +24,7 @@ const CommentItem = ({ comment, handleClick }) => {
             <IconButton 
             color="danger" 
             size="small" 
-            onClick={() => handleClick(comment.id)}
+            onClick={() => removeComment('Campgrounds', campgroundID, 'remove', comment)}
             >
                 <DeleteSweepOutlinedIcon fontSize="small"/>
             </IconButton>

@@ -23,14 +23,13 @@ import PrimarySearchAppBar from '../navbar/AppBar';
 
 
 const ShowCampground = () => {
-    const { campgroundsList } = useContext(CampgroundsContext);
+    const { campgroundsList, handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
     const { user } = useContext(AuthenticationContext);
-    const { removeComment } = useContext(CommentsContext);
+    //const { removeComment } = useContext(CommentsContext);
     const { id } = useParams(); 
     const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
     const comments = camp && camp.comments;
     const image = camp && camp.campground.image;
-    const currentDate = new Date();
     const ownership = camp && user && camp.campground.author === user.displayName;
       
     return ( 
@@ -73,7 +72,7 @@ const ShowCampground = () => {
                                 {ownership &&
                                 <Stack direction="row" spacing={1}>
                                     <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
-                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon/></IconButton>
+                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={() => removeItem(id)}/></IconButton>
                                 </Stack>
                                 }
                             </CardActions>
@@ -84,13 +83,14 @@ const ShowCampground = () => {
                                 <CommentItem 
                                 key={comment.id}
                                 comment={comment}
-                                handleClick={removeComment}
+                                removeComment={handleCommentsUpdate}
+                                campgroundID = {id}
                                 />
                             )}
                         </Paper>
                         }
                         {user &&
-                            <CommentForm author={"Tudor"} campID={id}/>
+                            <CommentForm campID={id}/>
                         }
                     </Grid>
                 </Grid>     
