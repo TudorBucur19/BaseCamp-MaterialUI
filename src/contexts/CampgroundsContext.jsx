@@ -11,6 +11,7 @@ const CampgroundsContextProvider = (props) => {
     const history = useHistory();
     const [campground, setCampground] = useState({
         image: [],
+        ratings: [],
     });   
     const [userAvatar, setUserAvatar] = useState({
         image: [],
@@ -102,27 +103,17 @@ const CampgroundsContextProvider = (props) => {
         setComment({});
     };
 
-    // const handleCommentSubmit = (collection, docID) => {
-    //     firebase.firestore()
-    //     .collection(collection)
-    //     .doc(docID)
-    //     .update({
-    //         comments: firebase.firestore.FieldValue.arrayUnion(comment),
-    //     });
-    //     setComment('')
-    // };
+    //ADD RATING TO CAMPGROUND
 
-    // const removeComment = (collection, docID, content) => {
-    //     firebase.firestore()
-    //     .collection(collection)
-    //     .doc(docID)
-    //     .update({
-    //         comments: firebase.firestore.FieldValue.arrayRemove(content),
-    //     });
-    // }
-
-
-
+    const handleRatingUpdate = (collection, docID, content) => {
+        firebase.firestore()
+        .collection(collection)
+        .doc(docID)
+        .update({
+            ratings: firebase.firestore.FieldValue.arrayUnion(content),
+        });
+        setComment({});
+    }
     
     //ADDING CAMPGROUNDS TO DATABASE
     const handleSubmit = (event) => {
@@ -214,6 +205,7 @@ const CampgroundsContextProvider = (props) => {
         //removeComment,
         handleCommentsUpdate,
         comment,
+        handleRatingUpdate,
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

@@ -21,6 +21,8 @@ import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import PrimarySearchAppBar from '../navbar/AppBar';
 import DialogBox from '../Common/DialogBox';
+import StarRating from '../Common/StarRating';
+import { ratingCalculator } from '../../utils/helperFunctions/helperFunctions';
 
 
 const ShowCampground = () => {
@@ -32,6 +34,8 @@ const ShowCampground = () => {
     const image = camp && camp.campground.image;
     const ownership = camp && user && camp.campground.author === user.displayName;
     const [open, setOpen] = useState(false);
+    const ratingOwnership = camp?.ratings && camp.ratings.filter(rating => rating.owner === user.uid).length;
+    const overAllRating = ratingCalculator(camp.ratings);
     
     const dialogTextContent = {
         deleteCampMsg: "You are about to remove this campground and it's data. Are you sure?",
@@ -54,7 +58,7 @@ const ShowCampground = () => {
             <Container sx={{mb: "2rem"}}>    
                 <Grid container spacing={4} mt={1}>
                     <Grid item xs={12} md={4}>                        
-                        <InfoAccordion campground={camp}/>                        
+                        <InfoAccordion campground={camp} campId={id} ratingOwnership={ratingOwnership} user={user}/>                        
                     </Grid>
                     <Grid item xs={12} md={8}>                
                         <Card >
@@ -77,9 +81,15 @@ const ShowCampground = () => {
                                 {camp.campground.description}
                                 </Typography>
                                 
-                                <Typography mt={2} fontWeight="bold">
+                                <Typography my={2} fontWeight="bold">
                                     {`submitted by: ${camp.campground.author}`}
-                                </Typography>                                
+                                </Typography>    
+                                {camp.ratings && 
+                                <Box display="flex">
+                                    <StarRating readOnly={true} ratingValue={overAllRating}/>
+                                    <Typography color="text.primary">{`(${camp.ratings.length} ratings)`}</Typography>
+                                </Box>           
+                                }                 
                             </CardContent>
                             
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>

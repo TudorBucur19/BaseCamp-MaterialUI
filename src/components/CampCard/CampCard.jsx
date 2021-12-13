@@ -6,11 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 import StarRating from '../Common/StarRating';
+import { ratingCalculator } from '../../utils/helperFunctions/helperFunctions';
 
 const CampCard = ({ campground, url }) => {
     const { image, name, price } = campground.campground;
+    const overAllRating = ratingCalculator(campground.ratings);
+
     return ( 
         <Card>
             <CardMedia
@@ -23,14 +27,20 @@ const CampCard = ({ campground, url }) => {
                 <Typography gutterBottom variant="h5" component="div">
                 {name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" mb={1}>
                     {Number(price) === 0 ?
                     `Free accomodation`
                     :
                     `${price} $ / night`
                     }
                 </Typography>
-                <StarRating readOnly={true} ratingValue={4}/>
+                {campground.ratings ? 
+                <Box display="flex">
+                    <StarRating readOnly={true} ratingValue={overAllRating}/>
+                </Box>
+                :
+                <Typography>No reviews yet!</Typography>
+                }
             </CardContent>
             <CardActions >
                 <Link to={`${url}/${campground.id}`}>
