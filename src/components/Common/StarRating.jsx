@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import { useContext } from 'react';
+import { AuthenticationContext } from '../../contexts/AuthenticationContext';
+import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 
-const StarRating = ({readOnly, ratingValue}) => {
+const StarRating = ({readOnly, ratingValue, campId}) => {
     const [value, setValue] = useState(ratingValue);
     const [hover, setHover] = useState(-1);
+    const { user } = useContext(AuthenticationContext);
+    const { handleRatingUpdate } = useContext(CampgroundsContext);
 
     const labels = {
         0.5: 'Useless',
@@ -22,9 +27,10 @@ const StarRating = ({readOnly, ratingValue}) => {
     return ( 
          <Box
         sx={{
-        width: 200,
+        width: 'fitContent',
         display: 'flex',
         alignItems: 'center',
+        mr: 2,
         }}
         >
             <Rating 
@@ -33,6 +39,7 @@ const StarRating = ({readOnly, ratingValue}) => {
             precision={0.5}
             onChange={(event, newValue) => {
                 setValue(newValue);
+                handleRatingUpdate('Campgrounds', campId, {rating: newValue, owner: user.uid});
               }}
 
             onChangeActive={(event, newHover) => {
@@ -42,7 +49,7 @@ const StarRating = ({readOnly, ratingValue}) => {
             readOnly={readOnly} 
             />
             {! readOnly && value !== null && (
-                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
             )}
         </Box>
      );

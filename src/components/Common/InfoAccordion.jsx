@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -15,7 +15,7 @@ import StarRating from './StarRating';
 import MapContainer from './MapContainer';
 
 
-const InfoAccordion = ({ campground }) => {
+const InfoAccordion = ({ campground, campId, ratingOwnership, user }) => {
     return ( 
     <div>
         <Accordion>
@@ -47,7 +47,17 @@ const InfoAccordion = ({ campground }) => {
            <ThumbsUpDownOutlinedIcon/><Typography ml={1}>Rate this Campground</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <StarRating readOnly={false} ratingValue={0}/>
+            {user ?
+            <Box>
+              {ratingOwnership ? 
+              <Typography>You already rated this Campground!</Typography>
+              :
+              <StarRating ratingValue={0} campId={campId}/>
+              }
+            </Box>
+            :
+            <Typography>Only loged-in users can rate a campground!</Typography>
+          }
           </AccordionDetails>
         </Accordion>
         <Accordion >
