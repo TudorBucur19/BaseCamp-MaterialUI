@@ -7,6 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import StarRating from '../Common/StarRating';
+
 const CampCard = ({ campground, url }) => {
     const { image, name, price } = campground.campground;
     return ( 
@@ -28,6 +30,7 @@ const CampCard = ({ campground, url }) => {
                     `${price} $ / night`
                     }
                 </Typography>
+                <StarRating readOnly={true} ratingValue={4}/>
             </CardContent>
             <CardActions >
                 <Link to={`${url}/${campground.id}`}>

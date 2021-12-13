@@ -7,7 +7,10 @@ import Box from '@mui/material/Box';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
+import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
 import { FaCampground } from "react-icons/fa";
+
+import StarRating from './StarRating';
 
 import MapContainer from './MapContainer';
 
@@ -41,13 +44,10 @@ const InfoAccordion = ({ campground }) => {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>Info 2</Typography>
+           <ThumbsUpDownOutlinedIcon/><Typography ml={1}>Rate this Campground</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
+            <StarRating readOnly={false} ratingValue={0}/>
           </AccordionDetails>
         </Accordion>
         <Accordion >
