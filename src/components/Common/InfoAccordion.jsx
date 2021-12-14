@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -11,7 +11,6 @@ import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
 import { FaCampground } from "react-icons/fa";
 
 import StarRating from './StarRating';
-
 import MapContainer from './MapContainer';
 
 
@@ -60,7 +59,7 @@ const InfoAccordion = ({ campground, campId, ratingOwnership, user }) => {
           }
           </AccordionDetails>
         </Accordion>
-        <Accordion >
+        {/* <Accordion >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3a-content"
@@ -74,7 +73,7 @@ const InfoAccordion = ({ campground, campId, ratingOwnership, user }) => {
               malesuada lacus ex, sit amet blandit leo lobortis eget.
             </Typography>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
       </div> 
     );
 }

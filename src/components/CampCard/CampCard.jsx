@@ -39,7 +39,7 @@ const CampCard = ({ campground, url }) => {
                     <StarRating readOnly={true} ratingValue={overAllRating}/>
                 </Box>
                 :
-                <Typography>No reviews yet!</Typography>
+                <Typography>No ratings yet!</Typography>
                 }
             </CardContent>
             <CardActions >

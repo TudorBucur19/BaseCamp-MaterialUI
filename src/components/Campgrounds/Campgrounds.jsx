@@ -24,8 +24,8 @@ const Campgrounds = () => {
                 <Box  py={4}>
                     <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     {campgroundsList &&
-                            campgroundsList.map((campground)=> 
-                            <Grid item xs={12} sm={6} md={3}>
+                            campgroundsList.map((campground) => 
+                            <Grid item xs={12} sm={6} md={3} key={campground.id}>
                                 <CampCard {...{campground, url}}/>
                             </Grid>
                             )
