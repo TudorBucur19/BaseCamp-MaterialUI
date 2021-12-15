@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -95,7 +95,9 @@ const ShowCampground = () => {
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
                                 {ownership &&
                                 <Stack direction="row" spacing={1}>
-                                    <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
+                                    <Link to={`/campgrounds/${id}/editcampground`}>
+                                        <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
+                                    </Link>
                                     <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={handleClickOpen}/></IconButton>
                                 </Stack>
                                 }
