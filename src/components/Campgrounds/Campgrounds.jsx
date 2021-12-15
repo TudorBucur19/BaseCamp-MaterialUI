@@ -9,6 +9,8 @@ import { CampgroundsContext } from '../../contexts/CampgroundsContext';
 import CampCard from '../CampCard/CampCard';
 import PrimarySearchAppBar from '../navbar/AppBar';
 import HeaderBanner from '../Common/HeaderBanner';
+import HeaderStripe from 'components/Common/HeaderStripe';
+import MapBanner from '../MapBanner/MapBanner';
 
 
 const Campgrounds = () => {
@@ -19,7 +21,8 @@ const Campgrounds = () => {
         <Container component="main" disableGutters={true} maxWidth="false">
             <PrimarySearchAppBar/>
             <Container maxWidth="lg" mt={4} sx={{marginTop: '30px'}}>
-                <HeaderBanner/>
+                <MapBanner campsList={campgroundsList} width="100%" height="400px" icon={FaCampground}/>
+                <HeaderStripe/>
 
                 <Box  py={4}>
                     <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
