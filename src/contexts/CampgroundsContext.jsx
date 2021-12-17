@@ -20,6 +20,8 @@ const CampgroundsContextProvider = (props) => {
     const [image, setImage] = useState(null);
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
+    const [currentID, setCurrentID] = useState();
+    const [isEditMode, setIsEditMode] = useState(false);
     
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = (file, callback) => {
@@ -76,6 +78,50 @@ const CampgroundsContextProvider = (props) => {
         });
     };
 
+    //ADD CAMPGROUNDS TO DATABASE
+    const submitCampgroundDB = () => {
+        //event.preventDefault();
+
+        db.collection('Campgrounds')
+        .add({
+            campground
+        })
+        .then(() => {
+           setCampground({
+               name: "",
+               price: "",
+               description: ""
+           });
+        })
+        history.push("/campgrounds");
+    };
+
+    //HOOK FORM SUBMIT
+    const submitCampground = (data) => {
+        setCampground({
+            ...campground,
+            ...data,
+            author: user.displayName,
+        });
+    };
+
+    useEffect(() => {
+        if(campground.name) {
+            isEditMode && updateCamp(currentID);
+            !isEditMode && submitCampgroundDB();
+        }
+    }, [campground]);
+
+    //CAMPGROUND UPDATE IN DATABASE
+    const updateCamp = (docID) => {
+        db.collection('Campgrounds')
+        .doc(docID)
+        .update({
+            "campground": {...campground}
+        });
+        console.log(campground)
+    }
+
     //ADD NEW COMMENT TO CAMPGROUND
     const handleCommentChange = (event, currentUser) => {
         const value = event.target.value;
@@ -115,25 +161,6 @@ const CampgroundsContextProvider = (props) => {
         setComment({});
     }
     
-    //ADDING CAMPGROUNDS TO DATABASE
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        db.collection('Campgrounds')
-        .add({
-            campground
-        })
-        .then(() => {
-           setCampground({
-               name: "",
-               price: "",
-               description: ""
-           });
-        })
-        history.push("/campgrounds");
-    };
-
-
     // GETTING CAMPGROUNDS LIST FROM DATABASE
     function useEntries(collection) {
         const [entries, setEntries] = useState([]);
@@ -194,7 +221,7 @@ const CampgroundsContextProvider = (props) => {
         userAvatar,
         setUserAvatar,
         handleChange,
-        handleSubmit,
+        submitCampgroundDB,
         removeItem,
         handleFileChange,
         handleUpload,
@@ -206,6 +233,10 @@ const CampgroundsContextProvider = (props) => {
         handleCommentsUpdate,
         comment,
         handleRatingUpdate,
+        submitCampground,
+        updateCamp,
+        setCurrentID,
+        setIsEditMode
     }
     return ( 
         <CampgroundsContext.Provider value={values}>

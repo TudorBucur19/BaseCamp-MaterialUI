@@ -6,9 +6,11 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { FaCampground } from "react-icons/fa";
 
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
+import { CampgroundsContext } from 'contexts/CampgroundsContext';
 
 const HeaderStripe = () => {
     const { user } = useContext(AuthenticationContext);
+    const { setIsEditMode } = useContext(CampgroundsContext);
     return ( 
         <Box 
         display="flex"
@@ -44,7 +46,9 @@ const HeaderStripe = () => {
             variant="contained" 
             color="secondary"
             size="large"
-            href="/newcampground">
+            href="/newcampground"
+            onClick={() => setIsEditMode(false)}
+            >            
                 Add new campground
             </Button>
             }

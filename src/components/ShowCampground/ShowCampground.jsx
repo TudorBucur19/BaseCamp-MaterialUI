@@ -93,14 +93,14 @@ const ShowCampground = () => {
                             </CardContent>
                             
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
-                                {ownership &&
+                                {/* {ownership && */}
                                 <Stack direction="row" spacing={1}>
                                     <Link to={`/campgrounds/${id}/editcampground`}>
                                         <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
                                     </Link>
                                     <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={handleClickOpen}/></IconButton>
                                 </Stack>
-                                }
+                                {/* } */}
                             </CardActions>
                         </Card>
                         {comments && comments.length > 0 &&
