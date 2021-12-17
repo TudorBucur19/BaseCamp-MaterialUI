@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -14,15 +14,15 @@ import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Container } from '@mui/material';
 
-import InfoAccordion from '../Common/InfoAccordion';
-import CommentItem from '../Common/CommentItem';
-import CommentForm from '../forms/CommentForm';
-import { AuthenticationContext } from '../../contexts/AuthenticationContext';
-import { CampgroundsContext } from '../../contexts/CampgroundsContext';
-import PrimarySearchAppBar from '../navbar/AppBar';
-import DialogBox from '../Common/DialogBox';
-import StarRating from '../Common/StarRating';
-import { ratingCalculator } from '../../utils/helperFunctions/helperFunctions';
+import { ratingCalculator } from 'utils/helperFunctions/helperFunctions';
+import { AuthenticationContext } from 'contexts/AuthenticationContext';
+import { CampgroundsContext } from 'contexts/CampgroundsContext';
+import InfoAccordion from 'components/Common/InfoAccordion';
+import CommentItem from 'components/Common/CommentItem';
+import CommentForm from 'components/forms/CommentForm';
+import PrimarySearchAppBar from 'components/navbar/AppBar';
+import DialogBox from 'components/Common/DialogBox';
+import StarRating from 'components/Common/StarRating';
 
 
 const ShowCampground = () => {
@@ -35,7 +35,7 @@ const ShowCampground = () => {
     const ownership = camp && user && camp.campground.author === user.displayName;
     const [open, setOpen] = useState(false);
     const ratingOwnership = camp?.ratings && camp.ratings.filter(rating => rating.owner === user.uid).length;
-    const overAllRating = ratingCalculator(camp.ratings);
+    const overAllRating = camp?.ratings && ratingCalculator(camp.ratings);
     
     const dialogTextContent = {
         deleteCampMsg: "You are about to remove this campground and it's data. Are you sure?",
@@ -93,12 +93,20 @@ const ShowCampground = () => {
                             </CardContent>
                             
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
-                                {ownership &&
+                                {/* {ownership && */}
                                 <Stack direction="row" spacing={1}>
-                                    <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
-                                    <IconButton color="danger" variant="outlined"><DeleteSweepOutlinedIcon onClick={handleClickOpen}/></IconButton>
+                                    <Link to={`/campgrounds/${id}/editcampground`}>
+                                        <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
+                                    </Link>
+                                    <IconButton 
+                                    color="danger" 
+                                    variant="outlined" 
+                                    onClick={handleClickOpen}
+                                    >
+                                        <DeleteSweepOutlinedIcon />
+                                    </IconButton>
                                 </Stack>
-                                }
+                                {/* } */}
                             </CardActions>
                         </Card>
                         {comments && comments.length > 0 &&

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { FaCampground } from "react-icons/fa";
 
-import { AuthenticationContext } from '../../contexts/AuthenticationContext';
+import { AuthenticationContext } from 'contexts/AuthenticationContext';
 
 const HeaderStripe = () => {
     const { user } = useContext(AuthenticationContext);
@@ -15,15 +15,12 @@ const HeaderStripe = () => {
         flexDirection={{xs: 'column', md: 'row'}}
         justifyContent="space-between"
         component="div" 
-        //bgcolor="rgb(229, 228, 226)" 
-        borderRadius={2}
         py={1}
         alignItems={{xs: 'center', md: 'flex-end'}}
-        //alignItems="flex-end"
         >
             <Box 
             display="flex" 
-            alignItems="flex-end"
+            alignItems="center"
             mb={{xs: 2, md: 0}}
             >
                 <FaCampground size="2.125rem"/>
@@ -44,7 +41,8 @@ const HeaderStripe = () => {
             variant="contained" 
             color="secondary"
             size="large"
-            href="/newcampground">
+            href="/newcampground"
+            >            
                 Add new campground
             </Button>
             }
