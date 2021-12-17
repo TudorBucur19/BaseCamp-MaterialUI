@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import LandingPage from '../components/landingPage/LandingPage';
-import Campgrounds from '../components/Campgrounds/Campgrounds';
-import ShowCampground from '../components/ShowCampground/ShowCampground';
-import AddNewCampground from '../components/forms/NewCampground';
-import EditCampground from '../components/forms/EditCampground';
-import Login from '../components/forms/Login';
+
+import LandingPage from 'components/landingPage/LandingPage';
+import Campgrounds from 'components/Campgrounds/Campgrounds';
+import ShowCampground from 'components/ShowCampground/ShowCampground';
+import AddNewCampground from 'components/forms/NewCampground';
+import EditCampground from 'components/forms/EditCampground';
+import Login from 'components/forms/Login';
 
 export const ROUTES = [
     {

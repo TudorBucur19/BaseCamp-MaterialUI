@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import firebase, { storage } from '../utils/firebase';
-import { AuthenticationContext } from './AuthenticationContext';
+import firebase, { storage } from 'utils/firebase';
+import { AuthenticationContext } from 'contexts/AuthenticationContext';
 
 export const CampgroundsContext = createContext();
 
@@ -9,14 +9,13 @@ const CampgroundsContextProvider = (props) => {
     const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
     const history = useHistory();
+    const campgroundsList = useEntries('Campgrounds');      
     const [campground, setCampground] = useState({
-        image: [],
-        ratings: [],
+        image: []
     });   
     const [userAvatar, setUserAvatar] = useState({
         image: [],
     });
-    const campgroundsList = useEntries('Campgrounds');      
     const [image, setImage] = useState(null);
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
@@ -35,7 +34,6 @@ const CampgroundsContextProvider = (props) => {
 
     const handleUpload = (collectionName, callback, state, img) => {
         const uploadTask = storage.ref(`${collectionName}/${img.name}`).put(img);
-        //const collectionRef = firebase.firestore().collection('MainImages');
         uploadTask.on(
             "state_changed",
             snapshot => {},
@@ -57,7 +55,7 @@ const CampgroundsContextProvider = (props) => {
         )
     };
 
-    // GETTING CAMPGROUND GPS COORDINATES
+    // SET CAMPGROUND GPS COORDINATES
     const getClickCoords = (e) => {
         setCampground({
             ...campground,
@@ -68,20 +66,17 @@ const CampgroundsContextProvider = (props) => {
         });
     };
 
-    // ADDING THE OTHER CAMPGROUND INFO
-    const handleChange = (event) => {
-        const value = event.target.value;
+    //SUBMIT CAMPGROUND FORM
+    const submitCampground = (data) => {
         setCampground({
             ...campground,
+            ...data,
             author: user.displayName,
-            [event.target.name]: value,
         });
     };
 
     //ADD CAMPGROUNDS TO DATABASE
     const submitCampgroundDB = () => {
-        //event.preventDefault();
-
         db.collection('Campgrounds')
         .add({
             campground
@@ -96,15 +91,6 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
-    //HOOK FORM SUBMIT
-    const submitCampground = (data) => {
-        setCampground({
-            ...campground,
-            ...data,
-            author: user.displayName,
-        });
-    };
-
     useEffect(() => {
         if(campground.name) {
             isEditMode && updateCamp(currentID);
@@ -112,7 +98,7 @@ const CampgroundsContextProvider = (props) => {
         }
     }, [campground]);
 
-    //CAMPGROUND UPDATE IN DATABASE
+    //UPDATE CAMPGROUND IN DATABASE
     const updateCamp = (docID) => {
         db.collection('Campgrounds')
         .doc(docID)
@@ -181,7 +167,7 @@ const CampgroundsContextProvider = (props) => {
         return entries;
     };
 
-    //REMOVE ITEMS FROM DATABASE
+    //REMOVE DOCUMENTS FROM DATABASE
     const removeItem = (id) => {
         db.collection('Campgrounds')
         .doc(id)
@@ -191,6 +177,7 @@ const CampgroundsContextProvider = (props) => {
         history.push("/campgrounds");
     };
 
+    //REMOVE FILE FROM STORAGE
     const removeStorageFile = (collectionName, fileName, index, state, callback) => {
         var imageRef = storage.ref(`${collectionName}/${fileName}`);
         try {
@@ -200,8 +187,7 @@ const CampgroundsContextProvider = (props) => {
                     ...state,
                     image: [...currentUrls]
                 });
-            });
-            
+            });            
         } 
         catch (error) {
             console.log(error)
@@ -220,16 +206,13 @@ const CampgroundsContextProvider = (props) => {
         campgroundsList,
         userAvatar,
         setUserAvatar,
-        handleChange,
         submitCampgroundDB,
         removeItem,
         handleFileChange,
         handleUpload,
         removeStorageFile,
         handleCommentChange,
-        //handleCommentSubmit,
         getClickCoords,
-        //removeComment,
         handleCommentsUpdate,
         comment,
         handleRatingUpdate,
@@ -237,7 +220,8 @@ const CampgroundsContextProvider = (props) => {
         updateCamp,
         setCurrentID,
         setIsEditMode
-    }
+    };
+
     return ( 
         <CampgroundsContext.Provider value={values}>
             {props.children}
