@@ -6,10 +6,17 @@ import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
 import { CampgroundsContext } from '../../contexts/CampgroundsContext';
+import { useForm } from 'react-hook-form';
 
 const CommentForm = ({ campID }) => {
     const { user } = useContext(AuthenticationContext);
-    const { handleCommentChange, comment, handleCommentsUpdate } = useContext(CampgroundsContext);
+    const { handleCommentChange } = useContext(CampgroundsContext);
+    const { register, handleSubmit, reset } = useForm();
+
+    const onSubmit = (data) => {
+        handleCommentChange(data, campID, 'add', 'Campgrounds')
+        reset();
+    }
     
     return ( 
         <Paper sx={{mt: 2, p: 2, display: "flex", flexDirection: "column"}}>
@@ -25,15 +32,13 @@ const CommentForm = ({ campID }) => {
                     minRows="2" 
                     color="borders" 
                     fullWidth
-                    value={comment?.comment}
-                    onChange={(e) => handleCommentChange(e, user.displayName)}
+                    {...register('commentText', {required: true})}
                     />
                     <Box mt={1}>
                         <Button 
                         variant="outlined" 
                         color="secondary"
-                        disabled={!comment?.comment}
-                        onClick={() => handleCommentsUpdate('Campgrounds', campID, 'add', comment)}
+                        onClick={handleSubmit(onSubmit)}
                         >
                             <AddCommentOutlinedIcon/>
                         </Button>
