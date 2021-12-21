@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import firebase, { storage } from 'utils/firebase';
 import { AuthenticationContext } from 'contexts/AuthenticationContext';
+import { useForm } from 'react-hook-form';
 
 export const CampgroundsContext = createContext();
 
@@ -9,6 +11,7 @@ const CampgroundsContextProvider = (props) => {
     const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
     const history = useHistory();
+    const { reset } = useForm();
     const campgroundsList = useEntries('Campgrounds');      
     const [campground, setCampground] = useState({
         image: []
@@ -19,6 +22,8 @@ const CampgroundsContextProvider = (props) => {
     const [image, setImage] = useState(null);
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
+    const [commentState, setCommentState] = useState();
+    const [editedComment, setEditedComment] = useState();
     const [currentID, setCurrentID] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
     
@@ -109,16 +114,24 @@ const CampgroundsContextProvider = (props) => {
     }
 
     //ADD NEW COMMENT TO CAMPGROUND
-    const handleCommentChange = (event, currentUser) => {
-        const value = event.target.value;
+    const handleCommentChange = (data, campID, action, collection) => {
+        //const value = event.target.value;
         setComment({
-            [event.target.name]: value,
-            author: currentUser,
+            ...data,
+            author: {
+                userID: user.uid,
+                userName : user.displayName
+            },
             createdAt: new Date(),
-        })
+        });
+        setCommentState({
+            campID: campID,
+            action: action,
+            collection: collection
+        });
     };
 
-    const editCommentsArray = (action, content) => {
+    const updateCommentsArray = (action, content) => {
         if(action === 'remove') {
             return firebase.firestore.FieldValue.arrayRemove(content);
         }
@@ -130,10 +143,25 @@ const CampgroundsContextProvider = (props) => {
         .collection(collection)
         .doc(docID)
         .update({
-            comments: editCommentsArray(action, content),
+            comments: updateCommentsArray(action, content),
         });
         setComment({});
     };
+
+    const editCommentsArray = (collection, docID, content) => {
+        firebase.firestore()
+        .collection(collection)
+        .doc(docID)
+        .update({
+            comments: firebase.firestore.FieldValue.arrayRemove(content),
+        });        
+    };
+
+    //this useEffect triggers the database upload after a comment is submitted
+    useEffect(() => {
+        if(comment && commentState)
+        handleCommentsUpdate(commentState.collection, commentState.campID, commentState.action, comment);
+    }, [commentState]);
 
     //ADD RATING TO CAMPGROUND
 
@@ -219,7 +247,8 @@ const CampgroundsContextProvider = (props) => {
         submitCampground,
         updateCamp,
         setCurrentID,
-        setIsEditMode
+        setIsEditMode,
+        editCommentsArray
     };
 
     return ( 
