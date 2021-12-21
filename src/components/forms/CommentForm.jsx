@@ -24,7 +24,6 @@ const CommentForm = ({ campID }) => {
                 <Avatar alt={user.displayName} src={ user.photoURL ? user.photoURL : "/static/images/avatar/1.jpg"} sx={{ width: 30, height: 30, mr: 2 }}/>
                 <Box component="form" flexGrow="1" display="flex" flexDirection="column" alignItems="flex-end">
                     <TextField 
-                    name="comment" 
                     label="Add new comment" 
                     variant="outlined" 
                     margin="dense" 

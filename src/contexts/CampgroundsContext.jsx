@@ -23,6 +23,7 @@ const CampgroundsContextProvider = (props) => {
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
     const [commentState, setCommentState] = useState();
+    const [editedComment, setEditedComment] = useState();
     const [currentID, setCurrentID] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
     
@@ -130,7 +131,7 @@ const CampgroundsContextProvider = (props) => {
         });
     };
 
-    const editCommentsArray = (action, content) => {
+    const updateCommentsArray = (action, content) => {
         if(action === 'remove') {
             return firebase.firestore.FieldValue.arrayRemove(content);
         }
@@ -142,9 +143,18 @@ const CampgroundsContextProvider = (props) => {
         .collection(collection)
         .doc(docID)
         .update({
-            comments: editCommentsArray(action, content),
+            comments: updateCommentsArray(action, content),
         });
         setComment({});
+    };
+
+    const editCommentsArray = (collection, docID, content) => {
+        firebase.firestore()
+        .collection(collection)
+        .doc(docID)
+        .update({
+            comments: firebase.firestore.FieldValue.arrayRemove(content),
+        });        
     };
 
     //this useEffect triggers the database upload after a comment is submitted
@@ -237,7 +247,8 @@ const CampgroundsContextProvider = (props) => {
         submitCampground,
         updateCamp,
         setCurrentID,
-        setIsEditMode
+        setIsEditMode,
+        editCommentsArray
     };
 
     return ( 
