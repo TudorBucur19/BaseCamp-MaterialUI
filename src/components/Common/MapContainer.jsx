@@ -2,17 +2,14 @@ import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import Box from '@mui/material/Box';
 
-const MapContainer = ({ height, width, onClick, coords, icon }) => {
+const MapContainer = ({ height, width, onClick, coords, currentPosition }) => {
     
     const mapStyle = {
         height: height,
         width: width
     };
 
-    const defaultCenter = {
-        lat: 45.745,
-        lng: 25.200
-    };
+    const defaultCenter = currentPosition ? currentPosition : {lat: 45.745, lng: 25.200};
 
     return ( 
         <Box>

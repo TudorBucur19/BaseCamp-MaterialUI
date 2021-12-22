@@ -23,6 +23,20 @@ const CampgroundsContextProvider = (props) => {
     const [commentState, setCommentState] = useState();
     const [currentID, setCurrentID] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
+    const [currentPosition, setCurrentPosition] = useState();
+
+    //GET CURRENT POSITION FROM BROWSER
+
+    const getPosition = (position) => {
+        setCurrentPosition({
+            lat: parseFloat(position.coords.latitude),
+            lng: parseFloat(position.coords.longitude)
+        })
+    };
+
+    useEffect(() => {
+        navigator.geolocation.watchPosition(getPosition);
+    }, [])
     
     // UPLOADING PHOTOS IN FIREBASE STORAGE
     const handleFileChange = (file, callback) => {
@@ -245,7 +259,8 @@ const CampgroundsContextProvider = (props) => {
         updateCamp,
         setCurrentID,
         setIsEditMode,
-        editCommentsArray
+        editCommentsArray,
+        currentPosition
     };
 
     return ( 

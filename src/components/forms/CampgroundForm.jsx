@@ -11,7 +11,7 @@ import FileInput from 'components/Common/FileInput';
 import MapContainer from 'components/Common/MapContainer';
 
 const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Campground" }) => {
-    const { campground, setCampground, setImage, submitCampground, handleFileChange, getClickCoords, isEditMode } = useContext(CampgroundsContext);
+    const { campground, setCampground, setImage, submitCampground, handleFileChange, getClickCoords, currentPosition } = useContext(CampgroundsContext);
     const { register, handleSubmit, setValue } = useForm();
 
     useEffect(() => {
@@ -67,7 +67,13 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
                     />
                     <Box>
                         <Typography color="text.secondary">Choose location</Typography>
-                        <MapContainer width="100%" height="200px" onClick={getClickCoords} coords={campground.coords} />
+                        <MapContainer 
+                        width="100%" 
+                        height="200px" 
+                        {...{currentPosition}}
+                        coords={campground.coords} 
+                        onClick={getClickCoords} 
+                        />
                     </Box>
                     <Button type="submit" variant="contained" color="secondary" size="large" sx={{mt: 1}} fullWidth>
                         {actionName}

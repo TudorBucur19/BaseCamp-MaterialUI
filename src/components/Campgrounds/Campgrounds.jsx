@@ -14,7 +14,7 @@ import MapBanner from 'components/MapBanner/MapBanner';
 
 
 const Campgrounds = () => {
-    const { campgroundsList } = useContext(CampgroundsContext);
+    const { campgroundsList, currentPosition } = useContext(CampgroundsContext);
     const [searchWord, setSearchWord] = useState({
         searchWord: '', 
     });
@@ -28,7 +28,12 @@ const Campgrounds = () => {
         <Container component="main" disableGutters={true} maxWidth="false">
             <PrimarySearchAppBar {...{setSearchWord}}/>
             <Container maxWidth="lg" mt={4} sx={{marginTop: '30px'}}>
-                <MapBanner campsList={campgroundsList} width="100%" height="400px" icon={FaCampground}/>
+                <MapBanner 
+                width="100%" 
+                height="400px"
+                campsList={campgroundsList}  
+                {...{currentPosition}}
+                />
                 <HeaderStripe/>
                 {foundResults.length ?
                 <Box  py={4}>
