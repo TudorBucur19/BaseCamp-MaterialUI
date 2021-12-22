@@ -8,13 +8,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
-import { FaCampground } from "react-icons/fa";
 
 import StarRating from './StarRating';
 import MapContainer from './MapContainer';
 
 
-const InfoAccordion = ({ campground, campId, ratingOwnership, user }) => {
+const InfoAccordion = ({ campground, campId, user }) => {
+    const currentUserRating = campground && user && campground.ratings?.find(rating => rating.owner === user.uid);
     return ( 
     <div>
         <Accordion>
@@ -48,8 +48,11 @@ const InfoAccordion = ({ campground, campId, ratingOwnership, user }) => {
           <AccordionDetails>
             {user ?
             <Box>
-              {ratingOwnership ? 
+              {currentUserRating ? 
+              <>
               <Typography>You already rated this Campground!</Typography>
+              <StarRating ratingValue={currentUserRating.rating} campId={campId} readOnly/>
+              </>
               :
               <StarRating ratingValue={0} campId={campId}/>
               }

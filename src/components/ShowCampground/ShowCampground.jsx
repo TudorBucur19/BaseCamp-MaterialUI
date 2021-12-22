@@ -29,11 +29,11 @@ const ShowCampground = () => {
     const { campgroundsList, handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
     const { user } = useContext(AuthenticationContext);
     const { id } = useParams(); 
+    const [open, setOpen] = useState(false);
     const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
     const comments = camp && camp.comments;
     const image = camp && camp.campground.image;
-    const ownership = camp && user && camp.campground.author === user.displayName;
-    const [open, setOpen] = useState(false);
+    const campgroundOwnership = camp && user && camp.campground.author === user.displayName;
     const ratingOwnership = camp?.ratings && camp.ratings.filter(rating => rating.owner === user.uid).length;
     const overAllRating = camp?.ratings && ratingCalculator(camp.ratings);
     
@@ -93,7 +93,7 @@ const ShowCampground = () => {
                             </CardContent>
                             
                             <CardActions sx={{padding: 2, justifyContent: "flex-end"}}>
-                                {/* {ownership && */}
+                                {campgroundOwnership &&
                                 <Stack direction="row" spacing={1}>
                                     <Link to={`/campgrounds/${id}/editcampground`}>
                                         <IconButton color="secondary" variant="outlined"><EditOutlinedIcon/></IconButton>
@@ -106,14 +106,14 @@ const ShowCampground = () => {
                                         <DeleteSweepOutlinedIcon />
                                     </IconButton>
                                 </Stack>
-                                {/* } */}
+                                }
                             </CardActions>
                         </Card>
                         {comments && comments.length > 0 &&
                         <Paper sx={{mt: 2, p: 2, display: "flex", flexDirection: "column"}} >
-                            {comments.map((comment) => 
+                            {comments.map((comment, index) => 
                                 <CommentItem 
-                                key={comment.id}
+                                key={index}
                                 comment={comment}
                                 removeComment={handleCommentsUpdate}
                                 campgroundID = {id}

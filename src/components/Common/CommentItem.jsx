@@ -20,7 +20,8 @@ const CommentItem = ({ comment, removeComment, campgroundID }) => {
             commentText: comment.commentText
         }
     });
-    const ownership = comment.author.userID === user.uid;
+    const ownership = comment.author.id === user.uid;
+    const { author } = comment;
     const [isEditable, setIsEditable] = useState(false);
     const handleClickAway = () => {
         setIsEditable(false);
@@ -37,10 +38,10 @@ const CommentItem = ({ comment, removeComment, campgroundID }) => {
         <Box py={2}>
             <Box display="flex" justifyContent="space-between">
                 <Box display="flex">
-                    <Avatar alt={comment.author.userName} src="/static/images/avatar/1.jpg" sx={{ width: 30, height: 30 }}/>
-                    <Typography as="h3" ml={1}>{comment.author.userName}</Typography>
+                    <Avatar alt={author.name} src={author.avatar ? author.avatar : "/static/images/avatar/1.jpg"} sx={{ width: 30, height: 30 }}/>
+                    <Typography as="h3" ml={1}>{author.name}</Typography>
                 </Box>
-                <Typography fontSize="0.9rem">10 days ago</Typography>
+                <Typography fontSize="0.9rem">{comment.createdAt}</Typography>
             </Box>
                 <Box ml={5}>
                     {isEditable ?            

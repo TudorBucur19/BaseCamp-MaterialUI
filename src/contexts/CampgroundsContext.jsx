@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import firebase, { storage } from 'utils/firebase';
 import { AuthenticationContext } from 'contexts/AuthenticationContext';
-import { useForm } from 'react-hook-form';
 
 export const CampgroundsContext = createContext();
 
@@ -11,7 +10,6 @@ const CampgroundsContextProvider = (props) => {
     const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
     const history = useHistory();
-    const { reset } = useForm();
     const campgroundsList = useEntries('Campgrounds');      
     const [campground, setCampground] = useState({
         image: []
@@ -23,7 +21,6 @@ const CampgroundsContextProvider = (props) => {
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
     const [commentState, setCommentState] = useState();
-    const [editedComment, setEditedComment] = useState();
     const [currentID, setCurrentID] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
     
@@ -115,14 +112,14 @@ const CampgroundsContextProvider = (props) => {
 
     //ADD NEW COMMENT TO CAMPGROUND
     const handleCommentChange = (data, campID, action, collection) => {
-        //const value = event.target.value;
         setComment({
             ...data,
             author: {
-                userID: user.uid,
-                userName : user.displayName
+                id: user.uid,
+                name : user.displayName,
+                avatar: user.photoURL,
             },
-            createdAt: new Date(),
+            createdAt: new Date().toDateString(),
         });
         setCommentState({
             campID: campID,
