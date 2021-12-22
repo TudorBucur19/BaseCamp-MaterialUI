@@ -1,25 +1,24 @@
 import React, { useContext, useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LoginIcon from '@mui/icons-material/Login';
 import { makeStyles } from '@material-ui/styles';
+import { TextField } from '@mui/material';
 import { FaCampground } from "react-icons/fa";
 
 import { AuthenticationContext } from '../../contexts/AuthenticationContext';
-import { Link } from 'react-router-dom';
-
 
 const useStyles = makeStyles({
   header: {
@@ -33,53 +32,18 @@ const useStyles = makeStyles({
   }
 });
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 1),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-export default function PrimarySearchAppBar() {
+const PrimarySearchAppBar = ({ setSearchWord }) => {
+  const { register, handleSubmit } = useForm();
   const { user, handleLogout } = useContext(AuthenticationContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const onSearch = (data) => {
+    setSearchWord(data);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -162,8 +126,7 @@ export default function PrimarySearchAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }} >
       <AppBar position="sticky" className={classes.header} elevation={0}>
-        <Toolbar>
-          
+        <Toolbar>          
           <IconButton
             size="large"
             edge="start"
@@ -172,10 +135,10 @@ export default function PrimarySearchAppBar() {
             sx={{ mr: 2 }}
           >
             <FaCampground/>
-            {/* <MenuIcon /> */}
           </IconButton>
           <Link to="/campgrounds" className={classes.link}>
             <Typography
+              mr={2}
               variant="h6"
               noWrap
               component="div"
@@ -186,15 +149,20 @@ export default function PrimarySearchAppBar() {
               BaseCamp
             </Typography>
           </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+
+          <TextField 
+          size="small"
+          label="Search by name..."
+          color="borders"
+          {...register('searchWord')}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon onClick={handleSubmit(onSearch)} cursor="pointer"/>
+              </InputAdornment>
+            )
+          }}
+          />
           <Box sx={{ flexGrow: 1 }} />
           {user ?
           <> 
@@ -234,7 +202,6 @@ export default function PrimarySearchAppBar() {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            //sx={{ mr: 2 }}
             href="/login"
           >
             <LoginIcon />
@@ -247,3 +214,5 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+export default PrimarySearchAppBar;

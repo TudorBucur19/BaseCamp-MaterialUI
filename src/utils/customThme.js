@@ -9,7 +9,7 @@ export const customTheme = {
           main: '#02a804',
         },
         borders: {
-          main: grey[600],
+          main: grey[600],          
         },
         danger: {
           main: red[700]
