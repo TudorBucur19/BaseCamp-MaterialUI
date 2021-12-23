@@ -68,7 +68,8 @@ const AuthenticationContextProvider = (props) => {
             break;
           default: console.log(err);
           }
-      });
+      })
+      .then(history.push('/campgrounds'));
   };
 
   const handleLogout = () =>  {

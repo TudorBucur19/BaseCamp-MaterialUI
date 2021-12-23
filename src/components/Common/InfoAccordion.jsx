@@ -9,8 +9,9 @@ import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
 
-import StarRating from './StarRating';
-import MapContainer from './MapContainer';
+import StarRating from 'components/Common/StarRating';
+import MapContainer from 'components/Common/MapContainer';
+import { ratingLabels } from 'utils/configValues';
 
 
 const InfoAccordion = ({ campground, campId, user }) => {
@@ -50,7 +51,7 @@ const InfoAccordion = ({ campground, campId, user }) => {
             <Box>
               {currentUserRating ? 
               <>
-              <Typography>You already rated this Campground!</Typography>
+              <Typography>You rated this campground as <Box fontWeight="bold">{ratingLabels[currentUserRating.rating]}</Box></Typography>
               <StarRating ratingValue={currentUserRating.rating} campId={campId} readOnly/>
               </>
               :

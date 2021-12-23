@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { FaCampground } from "react-icons/fa";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { CampgroundsContext } from 'contexts/CampgroundsContext';
 import CampCard from 'components/CampCard/CampCard';
@@ -51,7 +51,15 @@ const Campgrounds = () => {
                     </Grid>
                 </Box>
                 :
-                <Typography>Sorry! No results :(</Typography>
+                <Box>
+                    {searchWord.searchWord.length ?
+                    <Typography>Sorry! No results :(</Typography>
+                    :
+                    <Box display="flex" justifyContent="center" mt={4}>
+                        <CircularProgress color="secondary" />
+                    </Box>
+                    }
+                </Box>
                 }
             </Container>
         </Container>
