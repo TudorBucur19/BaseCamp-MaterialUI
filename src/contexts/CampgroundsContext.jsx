@@ -24,6 +24,9 @@ const CampgroundsContextProvider = (props) => {
     const [currentID, setCurrentID] = useState();
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentPosition, setCurrentPosition] = useState();
+    const [searchWord, setSearchWord] = useState({
+        searchWord: '', 
+    });
 
     //GET CURRENT POSITION FROM BROWSER
 
@@ -121,7 +124,7 @@ const CampgroundsContextProvider = (props) => {
         .update({
             "campground": {...campground}
         });
-        console.log(campground)
+        history.push("/campgrounds");
     }
 
     //ADD NEW COMMENT TO CAMPGROUND
@@ -260,7 +263,9 @@ const CampgroundsContextProvider = (props) => {
         setCurrentID,
         setIsEditMode,
         editCommentsArray,
-        currentPosition
+        currentPosition,
+        searchWord,
+        setSearchWord,
     };
 
     return ( 

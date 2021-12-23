@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +18,8 @@ import { makeStyles } from '@material-ui/styles';
 import { TextField } from '@mui/material';
 import { FaCampground } from "react-icons/fa";
 
-import { AuthenticationContext } from '../../contexts/AuthenticationContext';
+import { AuthenticationContext } from 'contexts/AuthenticationContext';
+import { CampgroundsContext } from 'contexts/CampgroundsContext';
 
 const useStyles = makeStyles({
   header: {
@@ -32,9 +33,11 @@ const useStyles = makeStyles({
   }
 });
 
-const PrimarySearchAppBar = ({ setSearchWord }) => {
+const PrimarySearchAppBar = () => {
+  const history = useHistory();
   const { register, handleSubmit } = useForm();
   const { user, handleLogout } = useContext(AuthenticationContext);
+  const { setSearchWord } = useContext(CampgroundsContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -43,6 +46,7 @@ const PrimarySearchAppBar = ({ setSearchWord }) => {
 
   const onSearch = (data) => {
     setSearchWord(data);
+    history.push("/campgrounds")
   };
 
   const handleProfileMenuOpen = (event) => {
