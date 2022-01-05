@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import LandingPage from 'components/landingPage/LandingPage';
-import Campgrounds from 'components/Campgrounds/Campgrounds';
-import ShowCampground from 'components/ShowCampground/ShowCampground';
+import LandingPage from 'pages/landingPage/LandingPage';
+import Campgrounds from 'pages/Campgrounds/Campgrounds';
+import ShowCampground from 'pages/ShowCampground/ShowCampground';
 import AddNewCampground from 'components/forms/NewCampground';
 import EditCampground from 'components/forms/EditCampground';
 import Login from 'components/forms/Login';

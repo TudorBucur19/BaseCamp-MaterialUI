@@ -3,7 +3,6 @@ import { useRouteMatch } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { CampgroundsContext } from 'contexts/CampgroundsContext';
@@ -11,6 +10,7 @@ import CampCard from 'components/CampCard/CampCard';
 import PrimarySearchAppBar from 'components/navbar/AppBar';
 import HeaderStripe from 'components/Common/HeaderStripe';
 import MapBanner from 'components/MapBanner/MapBanner';
+import SearchResultsMessage from 'components/Common/SearchResultsMessage';
 
 
 const Campgrounds = () => {
@@ -53,7 +53,7 @@ const Campgrounds = () => {
                 :
                 <Box>
                     {searchWord.searchWord.length ?
-                    <Typography>Sorry! No results :(</Typography>
+                    <SearchResultsMessage/>
                     :
                     <Box display="flex" justifyContent="center" mt={4}>
                         <CircularProgress color="secondary" />
