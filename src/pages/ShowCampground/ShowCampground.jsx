@@ -23,6 +23,7 @@ import CommentForm from 'components/forms/CommentForm';
 import PrimarySearchAppBar from 'components/navbar/AppBar';
 import DialogBox from 'components/Common/DialogBox';
 import StarRating from 'components/Common/StarRating';
+import ImageCarousel from 'components/ImageCarousel/ImageCarousel';
 
 
 const ShowCampground = () => {
@@ -62,12 +63,7 @@ const ShowCampground = () => {
                     </Grid>
                     <Grid item xs={12} md={8}>                
                         <Card >
-                            <CardMedia
-                                component="img"
-                                height="fit-content"
-                                image={typeof image === 'object' ? image[0].url : image}
-                                alt="green iguana"
-                            />
+                            <ImageCarousel images={image} />
                             <CardContent>
                                 <Box display="flex" justifyContent="space-between">
                                     <Typography gutterBottom variant="h5" component="div" fontWeight="bold" color="info.main">
