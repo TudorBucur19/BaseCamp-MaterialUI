@@ -11,11 +11,14 @@ import PrimarySearchAppBar from 'components/navbar/AppBar';
 import HeaderStripe from 'components/Common/HeaderStripe';
 import MapBanner from 'components/MapBanner/MapBanner';
 import SearchResultsMessage from 'components/Common/SearchResultsMessage';
+import useDatabaseCalls from 'utils/cusomHooks/useDatabaseCalls';
 
 
 const Campgrounds = () => {
-    const { campgroundsList, currentPosition, searchWord } = useContext(CampgroundsContext);
+    const { currentPosition, searchWord } = useContext(CampgroundsContext);
     const { url } = useRouteMatch();    
+    const { entries } = useDatabaseCalls('Campgrounds');
+    const campgroundsList = entries;
 
     const foundResults = campgroundsList && campgroundsList.filter(
         result => result.campground.name.toLowerCase().includes(searchWord.searchWord.toLowerCase())
