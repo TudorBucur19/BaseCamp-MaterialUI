@@ -9,10 +9,21 @@ import ImageThumbnail from 'components/Common/ImageThumbnail';
 import { CampgroundsContext } from 'contexts/CampgroundsContext';
 import FileInput from 'components/Common/FileInput';
 import MapContainer from 'components/Common/MapContainer';
+import WifiIcon from '@mui/icons-material/Wifi';
+import WcIcon from '@mui/icons-material/Wc';
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Campground" }) => {
     const { campground, setCampground, setImage, submitCampground, handleFileChange, getClickCoords, currentPosition } = useContext(CampgroundsContext);
     const { register, handleSubmit, setValue } = useForm();
+    const facilities = [
+        {value: 'wi-fi', label: WifiIcon},
+        {value: 'toilets', label: WcIcon},
+        {value: 'electricity', label: ElectricalServicesIcon},
+    ];
 
     useEffect(() => {
         if(currentCamp) {
