@@ -1,58 +1,53 @@
-import React, { useContext } from 'react';
-import './NewForm.scss';
-import { CampgroundsContext } from '../../contexts/CampgroundsContext';
-import Navbar from '../navbar/Navbar';
+import React, { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { makeStyles } from '@material-ui/styles';
+import Container from '@mui/material/Container';
 
-const AddNewCampground = () => {
-    const { campground, handleChange, handleSubmit, handleFileChange, handleUpload } = useContext(CampgroundsContext);
+import PrimarySearchAppBar from 'components/navbar/AppBar';
+import { CampgroundsContext } from 'contexts/CampgroundsContext';
+import CampgroundForm from 'components/forms/CampgroundForm';
+
+
+const AddNewCampground = ({ currentCamp, formTitle = "Create a New Campground" }) => {
+    const { campground, setCampground, setIsEditMode } = useContext(CampgroundsContext);
+    const { setValue } = useForm();
+
+    useEffect(() => {
+        setIsEditMode(false);
+    }, []);
+    
+    useEffect(() => {
+        if(currentCamp) {
+        const { name, price, description, image, coords } = currentCamp.campground;
+        setValue('name', name);
+        setValue('price', price);
+        setValue('description', description);
+        setCampground({
+            ...campground,
+            image: image,
+            coords: coords,
+            })
+        };
+    }, []);
+
+    const useStyles = makeStyles({
+        fileInput: {
+            display: 'none',
+            visibility: 'none',
+        },
+
+        buttonMb: {
+            marginBottom: '2rem',
+        }
+    });
+
+    const classes = useStyles();
 
     return (
-        <div> 
-            <Navbar/>
-            <div className="form-container">
-                <h2>Create a New Campground</h2>
-
-                <div className="upload-image-form">
-                        <input 
-                        type="file"           
-                        onChange={handleFileChange}
-                        /> 
-                        <button onClick={handleUpload}>
-                            Upload Photo
-                        </button>
-                </div>
-
-                <form className="new-item-form" onChange={handleChange} onSubmit={handleSubmit}>
-                    <input 
-                    type="text" 
-                    name="name" 
-                    value={campground.name}                
-                    placeholder="name"
-                    />
-
-                    <input 
-                    type="number" 
-                    name="price" 
-                    value={campground.price} 
-                    placeholder="price"
-                    />
-
-                    <input 
-                    type="text" 
-                    name="description" 
-                    value={campground.description} 
-                    placeholder="description"
-                    />
-
-                    <button 
-                    type="submit" 
-                    className="btn-submit"
-                    >
-                    Submit!
-                    </button>
-                </form>
-            </div>
-        </div>
+        <Container className={classes.container} component="div" disableGutters={true} maxWidth="full"> 
+            <PrimarySearchAppBar />
+            <CampgroundForm actionName="Submit"/>
+        </Container>
      );
 }
  

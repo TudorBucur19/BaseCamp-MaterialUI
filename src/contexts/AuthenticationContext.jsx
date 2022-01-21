@@ -1,24 +1,23 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import firebase from '../utils/firebase';
 
 export const AuthenticationContext = createContext();
 
 const AuthenticationContextProvider = (props) => {
-
   const [user, setUser] = useState('');
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [hasAccount, setHasAccount] = useState(false);
-
+  const [hasAccount, setHasAccount] = useState(true);
   const history = useHistory();
 
   const clearInputs = () => {
     setEmail('');
     setPassword('');
+    setUserName('');
   };
 
   const clearErrors = () => {
@@ -41,19 +40,21 @@ const AuthenticationContextProvider = (props) => {
           case "auth/wrong-password":
             setPasswordError(err.message);
             break;
+          default: console.log(err);
           }
-      });
-      // history.push('/home');
+      })
+      .then(history.push('/campgrounds'));
   };
 
-  const handleSignup = () => {
+  const handleSignup = (userPhoto) => {
     clearErrors();
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function(result) {
         return result.user.updateProfile({
-          displayName: userName
+          displayName: userName,
+          photoURL: userPhoto,
         })
       })
       .catch((err) => {
@@ -65,13 +66,14 @@ const AuthenticationContextProvider = (props) => {
           case "auth/weak-password":
             setPasswordError(err.message);
             break;
+          default: console.log(err);
           }
-      });
+      })
+      .then(history.push('/campgrounds'));
   };
 
   const handleLogout = () =>  {
     firebase.auth().signOut();
-    // history.push('/');
   };
 
   const authListener = () => {

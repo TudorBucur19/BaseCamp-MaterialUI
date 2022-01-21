@@ -1,15 +1,16 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './LandingPage.scss';
+import { Typography, Button } from '@mui/material';
 
 const LandingPage = () => {
 
     return ( 
         <div className="landing">
             <div className="landing__header">
-                <h1>Welcome to BaseCamp!</h1>
+                <Typography component="h1" variant="h3" fontFamily="RocknRoll One" fontWeight="bold" mb={3}>Welcome to BaseCamp!</Typography>
                 <Link to="/campgrounds">
-                    <span>View all campgrounds</span>
+                    <Button variant="contained" color="secondary" size="large">View all campgrounds</Button>
                 </Link>
                 
             </div>
