@@ -9,8 +9,7 @@ export const CampgroundsContext = createContext();
 const CampgroundsContextProvider = (props) => {
     const { user } = useContext(AuthenticationContext);
     const db = firebase.firestore();
-    const history = useHistory();
-    const campgroundsList = useEntries('Campgrounds');      
+    const history = useHistory(); 
     const [campground, setCampground] = useState({
         image: []
     });   
@@ -187,26 +186,6 @@ const CampgroundsContextProvider = (props) => {
             ratings: firebase.firestore.FieldValue.arrayUnion(content),
         });
         setComment({});
-    }
-    
-    // GETTING CAMPGROUNDS LIST FROM DATABASE
-    function useEntries(collection) {
-        const [entries, setEntries] = useState([]);
-        
-        useEffect(() => {
-            const unsubscribe = db
-            .collection(collection)
-            .onSnapshot((snapshot) => {
-                const newEntry = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-                setEntries(newEntry);
-                })
-            return () => unsubscribe();
-        }, [])
-    
-        return entries;
     };
 
     //REMOVE DOCUMENTS FROM DATABASE
@@ -238,14 +217,12 @@ const CampgroundsContextProvider = (props) => {
 
 
     const values = {
-        useEntries,
         image,
         setImage,
         avatar,
         setAvatar,
         campground,
         setCampground,
-        campgroundsList,
         userAvatar,
         setUserAvatar,
         submitCampgroundDB,
