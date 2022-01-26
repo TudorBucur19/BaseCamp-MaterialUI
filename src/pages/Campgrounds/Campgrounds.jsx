@@ -17,8 +17,7 @@ import useDatabaseCalls from 'utils/cusomHooks/useDatabaseCalls';
 const Campgrounds = () => {
     const { currentPosition, searchWord } = useContext(CampgroundsContext);
     const { url } = useRouteMatch();    
-    const { entries } = useDatabaseCalls('Campgrounds');
-    const campgroundsList = entries;
+    const { entries: campgroundsList } = useDatabaseCalls('Campgrounds');
 
     const foundResults = campgroundsList && campgroundsList.filter(
         result => result.campground.name.toLowerCase().includes(searchWord.searchWord.toLowerCase())

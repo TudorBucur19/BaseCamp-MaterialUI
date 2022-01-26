@@ -24,13 +24,15 @@ import PrimarySearchAppBar from 'components/navbar/AppBar';
 import DialogBox from 'components/Common/DialogBox';
 import StarRating from 'components/Common/StarRating';
 import ImageCarousel from 'components/ImageCarousel/ImageCarousel';
+import useDatabaseCalls from 'utils/cusomHooks/useDatabaseCalls';
 
 
 const ShowCampground = () => {
-    const { campgroundsList, handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
+    const { handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
     const { user } = useContext(AuthenticationContext);
     const { id } = useParams(); 
     const [open, setOpen] = useState(false);
+    const { entries: campgroundsList } = useDatabaseCalls('Campgrounds');
     const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
     const comments = camp && camp.comments;
     const image = camp && camp.campground.image;
