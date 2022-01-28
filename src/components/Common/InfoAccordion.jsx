@@ -63,21 +63,6 @@ const InfoAccordion = ({ campground, campId, user }) => {
           }
           </AccordionDetails>
         </Accordion>
-        {/* <Accordion >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3a-content"
-            id="panel3a-header"
-          >
-            <Typography>Info 3</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
-          </AccordionDetails>
-        </Accordion> */}
       </div> 
     );
 }

@@ -20,8 +20,8 @@ const CommentItem = ({ comment, removeComment, campgroundID }) => {
             commentText: comment.commentText
         }
     });
-    const ownership = comment.author.id === user.uid;
     const { author } = comment;
+    const ownership = author.id === user.uid;
     const [isEditable, setIsEditable] = useState(false);
     const handleClickAway = () => {
         setIsEditable(false);

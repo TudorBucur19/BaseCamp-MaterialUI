@@ -24,7 +24,13 @@ const FileInput = ({ handleChange, inputLabel, setState}) => {
             startIcon={<AddAPhotoOutlinedIcon/>}
             >
                 {inputLabel}
-                <input type="file" className={classes.fileInput} onChange={(e) => handleChange(e.target.files[0], setState)}/>
+                <input 
+                type="file" 
+                className={classes.fileInput} 
+                onChange={(e) => handleChange(Array.from(e.target.files), setState)}
+                required 
+                multiple="multiple"
+                />
             </Button>
             <Typography ml={2} color="text.secondary">Choose an image</Typography>
         </Box> 

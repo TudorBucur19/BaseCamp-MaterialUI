@@ -6,11 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const DialogBox = ({ open, onAgree, handleClose, dialogTextContent, identifier }) => {
-    const handleAgree = (id) => {
-        onAgree(id);
+const DialogBox = ({ open, onAgree, handleClose, dialogTextContent, identifier, image }) => {
+    const handleAgree = (id, image) => {
+        onAgree(id, image);
         handleClose()
-    }
+    };
+
     return ( 
         <Dialog
         open={open}
@@ -28,7 +29,7 @@ const DialogBox = ({ open, onAgree, handleClose, dialogTextContent, identifier }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">Not sure</Button>
-          <Button onClick={() => handleAgree(identifier)} color="secondary" autoFocus>
+          <Button onClick={() => handleAgree(identifier, image)} color="secondary" autoFocus>
             Yes
           </Button>
         </DialogActions>
