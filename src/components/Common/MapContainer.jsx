@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import Box from '@mui/material/Box';
 
-const MapContainer = ({ height, width, onClick, coords, currentPosition }) => {
+const MapContainer = ({ height, width, handleClick, coords, currentPosition }) => {
     
     const mapStyle = {
         height: height,
@@ -18,7 +18,7 @@ const MapContainer = ({ height, width, onClick, coords, currentPosition }) => {
                 mapContainerStyle={mapStyle}
                 center={coords ? coords : defaultCenter}
                 zoom={10}
-                onClick={(e) => onClick(e)}
+                onClick={(e) => handleClick && handleClick(e)}
                 >
                     {coords &&
                     <Marker
