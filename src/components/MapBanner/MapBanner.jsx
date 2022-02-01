@@ -19,8 +19,7 @@ const MapBanner = ({ height, width, onClick, campsList, currentPosition }) => {
                 <GoogleMap
                 mapContainerStyle={mapStyle}
                 center={currentPosition ? currentPosition : defaultCenter}
-                zoom={10}
-                onClick={(e) => onClick(e)}
+                zoom={5}
                 >
                     {campsList.map((item, index) => 
                         <Marker

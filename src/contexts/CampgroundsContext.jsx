@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import firebase, { storage } from 'utils/firebase';
 import { AuthenticationContext } from 'contexts/AuthenticationContext';
+import useDatabaseCalls from 'utils/cusomHooks/useDatabaseCalls';
 
 export const CampgroundsContext = createContext();
 
@@ -16,7 +17,7 @@ const CampgroundsContextProvider = (props) => {
     const [userAvatar, setUserAvatar] = useState({
         image: [],
     });
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState(null);
     const [avatar, setAvatar] = useState(null);
     const [comment, setComment] = useState({});
     const [commentState, setCommentState] = useState();
@@ -26,6 +27,7 @@ const CampgroundsContextProvider = (props) => {
     const [searchWord, setSearchWord] = useState({
         searchWord: '', 
     });
+    const { entries: campgroundsList } = useDatabaseCalls('Campgrounds');
 
     //GET CURRENT POSITION FROM BROWSER
 
@@ -46,40 +48,53 @@ const CampgroundsContextProvider = (props) => {
     };
 
     useEffect(() => {
-      image && handleUpload('images', setCampground, campground, image);
-      avatar && handleUpload('usersAvatars', setUserAvatar, userAvatar, avatar);
-    }, [image, avatar]);
+      images && handleFileUpload('images', setCampground, campground, images);
+      avatar && handleFileUpload('usersAvatars', setUserAvatar, userAvatar, avatar);
+    }, [images, avatar]);
 
-    const handleUpload = (collectionName, callback, state, img) => {
-        const uploadTask = storage.ref(`${collectionName}/${img.name}`).put(img);
-        uploadTask.on(
-            "state_changed",
-            snapshot => {},
-            error => {
-                console.log(error);
-            },
-            () =>{
-                storage
-                .ref(collectionName)
-                .child(img.name)
-                .getDownloadURL()
-                .then(url => {
-                    callback({
-                        ...state,
-                        image: [...state.image, {name: img.name, url: url}],
-                    })
-                });
-            }
-        )
+    const handleFileUpload = (collectionName, callback, state, img) => {
+        img.map(file => {
+            const uploadTask = storage.ref(`${collectionName}/${file.name}`).put(file);
+            uploadTask.on(
+                "state_changed",
+                snapshot => {},
+                error => {
+                    console.log(error);
+                },
+                () =>{
+                    storage
+                    .ref(collectionName)
+                    .child(file.name)
+                    .getDownloadURL()
+                    .then(url => {
+                        callback(prevState => ({
+                            ...prevState,
+                            image: [...prevState.image, {name: file.name, url: url}],
+                        }))
+                    });
+                }
+            )
+        })
     };
 
     // SET CAMPGROUND GPS COORDINATES
-    const getClickCoords = (e) => {
+
+    const getClickCoords = async (e) => {
+        const lat = e.latLng.lat();
+        const lng = e.latLng.lng();
+        const response = await fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?lat=${lat}&lng=${lng}&username=tudor300`)
+        const data = await response.json();
+        const country = data.geonames[0];
+        
         setCampground({
             ...campground,
             coords: {
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng()
+            lat: lat,
+            lng: lng
+            },
+            country: {
+                name: country.countryName,
+                code: country.countryCode
             }
         });
     };
@@ -101,9 +116,7 @@ const CampgroundsContextProvider = (props) => {
         })
         .then(() => {
            setCampground({
-               name: "",
-               price: "",
-               description: ""
+            image: [],
            });
         })
         history.push("/campgrounds");
@@ -189,7 +202,8 @@ const CampgroundsContextProvider = (props) => {
     };
 
     //REMOVE DOCUMENTS FROM DATABASE
-    const removeItem = (id) => {
+    const removeDBItem = (id, filesToRemove = false) => {
+        filesToRemove.map(file => storage.ref(`images/${file.name}`).delete());
         db.collection('Campgrounds')
         .doc(id)
         .delete()
@@ -217,8 +231,9 @@ const CampgroundsContextProvider = (props) => {
 
 
     const values = {
-        image,
-        setImage,
+        campgroundsList,
+        images,
+        setImages,
         avatar,
         setAvatar,
         campground,
@@ -226,9 +241,9 @@ const CampgroundsContextProvider = (props) => {
         userAvatar,
         setUserAvatar,
         submitCampgroundDB,
-        removeItem,
+        removeDBItem,
         handleFileChange,
-        handleUpload,
+        handleFileUpload,
         removeStorageFile,
         handleCommentChange,
         getClickCoords,

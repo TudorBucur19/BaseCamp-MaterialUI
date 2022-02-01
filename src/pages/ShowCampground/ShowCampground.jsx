@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
@@ -24,20 +25,22 @@ import PrimarySearchAppBar from 'components/navbar/AppBar';
 import DialogBox from 'components/Common/DialogBox';
 import StarRating from 'components/Common/StarRating';
 import ImageCarousel from 'components/ImageCarousel/ImageCarousel';
-
+import { campgroundFacilities } from 'utils/configValues';
+import missingImage from 'assets/image-not-found.jpg';
 
 const ShowCampground = () => {
-    const { campgroundsList, handleCommentsUpdate, removeItem } = useContext(CampgroundsContext);
+    const { campgroundsList, handleCommentsUpdate, removeDBItem } = useContext(CampgroundsContext);
     const { user } = useContext(AuthenticationContext);
     const { id } = useParams(); 
     const [open, setOpen] = useState(false);
     const camp = campgroundsList && campgroundsList.find(campground => campground.id === id);
     const comments = camp && camp.comments;
+    const facilities = camp && camp.campground.facilities;
     const image = camp && camp.campground.image;
     const campgroundOwnership = camp && user && camp.campground.author === user.displayName;
     const ratingOwnership = camp?.ratings && camp.ratings.filter(rating => rating.owner === user.uid).length;
     const overAllRating = camp?.ratings && ratingCalculator(camp.ratings);
-    
+    const currentFacilities = facilities && campgroundFacilities.filter(item => facilities.includes(item.name));
     const dialogTextContent = {
         deleteCampMsg: "You are about to remove this campground and it's data. Are you sure?",
         campHeader: "Remove this Campground?"
@@ -63,19 +66,35 @@ const ShowCampground = () => {
                     </Grid>
                     <Grid item xs={12} md={8}>                
                         <Card >
-                            <ImageCarousel images={image} />
+                            {image.length ? 
+                            <ImageCarousel images={image} />           
+                            :
+                            <CardMedia
+                            component="img"
+                            image={missingImage}
+                            alt="missing image"
+                            />                
+                            }
                             <CardContent>
                                 <Box display="flex" justifyContent="space-between">
                                     <Typography gutterBottom variant="h5" component="div" fontWeight="bold" color="info.main">
                                         {camp.campground.name}
                                     </Typography>
                                     <Typography gutterBottom variant="h6" component="div">
-                                        $ {camp.campground.price} /night
+                                        € {camp.campground.price} /night
                                     </Typography>
                                 </Box>
-                                <Typography variant="body2" color="text.secondary">
-                                {camp.campground.description}
+                                <Typography variant="body2" color="text.secondary" mb={4}>
+                                    {camp.campground.description}
                                 </Typography>
+
+                                
+                                <Divider variant="middle" />
+                                <Box mt={2}>
+                                    {facilities && currentFacilities.map(item => (
+                                        <item.icon color="secondary"/>
+                                    ))}
+                                </Box>
                                 
                                 <Typography my={2} fontWeight="bold">
                                     {`submitted by: ${camp.campground.author}`}
@@ -122,7 +141,7 @@ const ShowCampground = () => {
                         }
                     </Grid>
                 </Grid>  
-                <DialogBox {...{open, handleClose, dialogTextContent}} onAgree={removeItem} identifier={id}/>     
+                <DialogBox {...{open, handleClose, dialogTextContent, image}} onAgree={removeDBItem} identifier={id}/>     
             </Container>   
         </div>
         }
