@@ -6,30 +6,23 @@ export const AuthenticationContext = createContext();
 
 const AuthenticationContextProvider = (props) => {
   const [user, setUser] = useState('');
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [hasAccount, setHasAccount] = useState(true);
   const history = useHistory();
-
-  const clearInputs = () => {
-    setEmail('');
-    setPassword('');
-    setUserName('');
-  };
 
   const clearErrors = () => {
     setEmailError('');
     setPasswordError('');
   }
 
-  const handleLogin = () => {
+  const handleLogin = (data) => {
     clearErrors();
+    console.log(data)
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then( user => user.user.uid && history.push('/campgrounds'))
       .catch((err) => {
         switch(err.code) {
           case "auth/invalid-email":
@@ -42,18 +35,18 @@ const AuthenticationContextProvider = (props) => {
             break;
           default: console.log(err);
           }
-      })
-      .then(history.push('/campgrounds'));
+      })      
   };
 
-  const handleSignup = (userPhoto) => {
+  const handleSignup = (data, userPhoto = null) => {
     clearErrors();
     firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(data.email, data.password)
       .then(function(result) {
+        console.log(data.userName)
         return result.user.updateProfile({
-          displayName: userName,
+          displayName: data.userName,
           photoURL: userPhoto,
         })
       })
@@ -79,7 +72,6 @@ const AuthenticationContextProvider = (props) => {
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        clearInputs();
         setUser(user);
       } else {
         setUser("");
@@ -94,10 +86,6 @@ const AuthenticationContextProvider = (props) => {
 
   const values = {
     user,
-    email,
-    setEmail,
-    password,
-    setPassword,
     handleLogin,
     handleSignup,
     handleLogout,
@@ -105,8 +93,6 @@ const AuthenticationContextProvider = (props) => {
     setHasAccount,
     emailError,
     passwordError,
-    userName,
-    setUserName
   }
 
     return (

@@ -1,31 +1,24 @@
 import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-import { CampgroundsContext } from '../../contexts/CampgroundsContext';
-import PrimarySearchAppBar from '../navbar/AppBar';
-import { AuthenticationContext } from '../../contexts/AuthenticationContext';
-import FileInput from '../Common/FileInput';
-import ImageThumbnail from '../Common/ImageThumbnail';
+import { CampgroundsContext } from 'contexts/CampgroundsContext';
+import PrimarySearchAppBar from 'components/navbar/AppBar';
+import { AuthenticationContext } from 'contexts/AuthenticationContext';
+import FileInput from 'components/Common/FileInput';
+import ImageThumbnail from 'components/Common/ImageThumbnail';
+import { signUpSchema, signInSchema } from 'utils/yupSchemas';
 
-const Login = () => {
-    const { handleFileChange, setAvatar, userAvatar, setUserAvatar } = useContext(CampgroundsContext)
-    const { 
-        email, 
-        setEmail, 
-        password, 
-        setPassword, 
-        handleLogin, 
-        handleSignup, 
-        hasAccount, 
-        setHasAccount, 
-        emailError, 
-        passwordError, 
-        userName,
-        setUserName 
-    } = useContext(AuthenticationContext);
+const Login = () => { 
+    const { handleFileChange, setAvatar, userAvatar, setUserAvatar } = useContext(CampgroundsContext);
+    const { handleLogin, handleSignup, hasAccount, setHasAccount, emailError, passwordError } = useContext(AuthenticationContext);  
+    const schema = hasAccount ? signInSchema : signUpSchema;
+    const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema) });
     
     return ( 
         <div>
@@ -35,43 +28,47 @@ const Login = () => {
                     Wellcome to BaseCamp
                 </Typography>
                 
-                <form >
+                <form>
                     {!hasAccount && 
-                    <TextField 
-                    name="userName" 
-                    label="User Name" 
-                    variant="outlined" 
-                    margin="dense" 
-                    color="borders" 
-                    fullWidth
-                    value={userName} 
-                    onChange={(e) => setUserName(e.target.value)}
-                    />
+                    <Box>
+                        <TextField 
+                        label="User Name" 
+                        variant="outlined" 
+                        margin="dense" 
+                        color="borders" 
+                        fullWidth
+                        {...register('userName')}
+                        />
+                        <Typography>{errors.userName?.message}</Typography>
+                    </Box>
                     }
-                    <TextField 
-                    name="email" 
-                    label="Email" 
-                    variant="outlined" 
-                    type="email"
-                    margin="dense" 
-                    color="borders" 
-                    fullWidth
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    />
-                    {emailError && <Typography color="red">{emailError}</Typography>}
-                    <TextField 
-                    name="password" 
-                    label="Password" 
-                    variant="outlined" 
-                    type="password" 
-                    margin="dense" 
-                    color="borders" 
-                    fullWidth
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {passwordError && <Typography color="red">{passwordError}</Typography>}
+                    <Box>
+                        <TextField 
+                        label="Email" 
+                        variant="outlined" 
+                        type="email"
+                        margin="dense" 
+                        color="borders" 
+                        fullWidth
+                        {...register('email', {required: true})}
+                        />
+                        <Typography capitalize color="red">{errors.email?.message}</Typography>
+                        {emailError && <Typography color="red">{emailError}</Typography>}
+                    </Box>
+
+                    <Box>
+                        <TextField 
+                        label="Password" 
+                        variant="outlined" 
+                        type="password" 
+                        margin="dense" 
+                        color="borders" 
+                        fullWidth
+                        {...register('password', {required: true})}
+                        />
+                        <Typography color="red">{errors.password?.message}</Typography>
+                        {passwordError && <Typography color="red">{passwordError}</Typography>}
+                    </Box>
 
                     {!hasAccount && <FileInput handleChange={handleFileChange} inputLabel={'Avatar'} setState={setAvatar}/>}
                     {userAvatar.image.length > 0 && <ImageThumbnail images={userAvatar.image} collection={'usersAvatars'} state={userAvatar} setState={setUserAvatar}/>} 
@@ -85,10 +82,11 @@ const Login = () => {
                         size="large" 
                         sx={{mt: 1}}
                         fullWidth 
-                        onClick={handleLogin}
+                        onClick={handleSubmit(handleLogin)}
                         >
                             Sign In
                         </Button>
+
                         <Typography 
                         mt={3}
                         >
@@ -104,7 +102,7 @@ const Login = () => {
                         size="large" 
                         sx={{mt: 1}} 
                         fullWidth 
-                        onClick={() => handleSignup(userAvatar.image[0].url)}
+                        onClick={handleSubmit((data) => handleSignup(data, userAvatar.image[0]?.url))}
                         >
                             Sign Up
                         </Button>
