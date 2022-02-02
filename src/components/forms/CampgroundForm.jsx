@@ -77,7 +77,7 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         label="Campground Landscape"
-                        {...register("landscape")}                         
+                        {...register("landscape", { required: true })}                         
                     >
                         {landscapeType.map(item =>(
                             <MenuItem  value={item} key={item}>{item}</MenuItem>
