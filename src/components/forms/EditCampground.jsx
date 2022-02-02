@@ -33,7 +33,7 @@ const EditCampground = () => {
     return ( 
         <Container className={classes.container} component="div" disableGutters={true} maxWidth="full"> 
             <PrimarySearchAppBar/>
-            <CampgroundForm currentCamp={camp} actionName="Update" formTitle={`Edit ${camp.campground.name}`}/>
+            <CampgroundForm currentCamp={camp} actionName="Update" formTitle={`Edit ${camp?.campground.name}`}/>
         </Container>
      );
 }

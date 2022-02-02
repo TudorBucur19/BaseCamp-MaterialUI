@@ -6,6 +6,11 @@ import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import PetsIcon from '@mui/icons-material/Pets';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import BungalowIcon from '@mui/icons-material/Bungalow';
+import DetailsIcon from '@mui/icons-material/Details';
+import RvHookupIcon from '@mui/icons-material/RvHookup';
+import HikingIcon from '@mui/icons-material/Hiking';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
 export const ratingLabels = {
     0.5: 'Useless',
@@ -29,4 +34,24 @@ export const campgroundFacilities = [
     { name: "pet friendly", icon: PetsIcon },
     { name: "video security", icon: VideocamIcon },
     { name: "parking", icon: LocalParkingIcon },
+];
+
+export const landscapeType = [     
+    "mountain campsite",
+    "beach campsite",
+    "countryside campsite",
+    "mountain hut",
+    "mountain refuge",
+];
+
+export const accomodationType = [
+    {name: "tent", icon: DetailsIcon},
+    {name: "hut", icon: BungalowIcon},
+    {name: "camper van", icon: RvHookupIcon}
+];
+
+export const locationAccess = [
+    {name: "only walk", icon: HikingIcon},
+    {name: "car", icon: DirectionsCarIcon},
+    {name: "caravan", icon: RvHookupIcon},
 ];
