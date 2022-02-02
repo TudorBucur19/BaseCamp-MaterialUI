@@ -85,6 +85,7 @@ const CampgroundsContextProvider = (props) => {
         const response = await fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?lat=${lat}&lng=${lng}&username=tudor300`)
         const data = await response.json();
         const country = data.geonames[0];
+        console.log(data)
         
         setCampground({
             ...campground,
@@ -94,7 +95,9 @@ const CampgroundsContextProvider = (props) => {
             },
             country: {
                 name: country.countryName,
-                code: country.countryCode
+                code: country.countryCode,
+                county: country.adminName1,
+                localSpot: country.toponymName
             }
         });
     };

@@ -8,6 +8,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
 import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
+import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 
 import StarRating from 'components/Common/StarRating';
 import MapContainer from 'components/Common/MapContainer';
@@ -63,6 +66,33 @@ const InfoAccordion = ({ campground, campId, user }) => {
           }
           </AccordionDetails>
         </Accordion>
+        {campground.campground.contactInfo && 
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon/>}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <ContactPhoneOutlinedIcon/><Typography ml={1}>Contact</Typography>
+          </AccordionSummary>
+          <AccordionDetails>           
+            <Box>
+              {campground.campground.contactInfo.phoneNumber && 
+              <Box display="flex" mb={2}>
+                <LocalPhoneOutlinedIcon color="secondary"/>
+                <Typography ml={2}>{campground.campground.contactInfo.phoneNumber}</Typography>
+              </Box>
+              }
+              {campground.campground.contactInfo.email && 
+              <Box display="flex">
+                <AlternateEmailOutlinedIcon color="secondary"/>
+                <Typography ml={2}>{campground.campground.contactInfo.email}</Typography>
+              </Box>
+              }
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+        }
       </div> 
     );
 }
