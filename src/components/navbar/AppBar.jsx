@@ -129,8 +129,8 @@ const PrimarySearchAppBar = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }} position="sticky">
-      <AppBar className={classes.header} elevation={0}>
+    <Box sx={{ flexGrow: 1 }} >
+      <AppBar className={classes.header} elevation={0} position="sticky">
         <Toolbar>          
           <IconButton
             size="large"

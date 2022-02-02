@@ -6,12 +6,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import ImageThumbnail from 'components/Common/ImageThumbnail';
 import { CampgroundsContext } from 'contexts/CampgroundsContext';
 import FileInput from 'components/Common/FileInput';
 import MapContainer from 'components/Common/MapContainer';
-import { campgroundFacilities } from 'utils/configValues';
+import { campgroundFacilities, landscapeType, locationAccess, accomodationType } from 'utils/configValues';
 
 const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Campground" }) => {
     const { campground, setCampground, setImages, submitCampground, handleFileChange, getClickCoords, currentPosition } = useContext(CampgroundsContext);
@@ -19,7 +23,7 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
     
     useEffect(() => {
         if(currentCamp) {
-        const { name, price, description, image, coords, country, facilities } = currentCamp.campground;
+        const { name, price, description, image, coords, country, facilities, access, accomodationOptions } = currentCamp.campground;
         setValue('name', name);
         setValue('price', price);
         setValue('description', description);
@@ -29,15 +33,19 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
             coords: coords,
             country: country,
             facilities: facilities,
+            access: access,
+            accomodationOptions: accomodationOptions
             })
         };
     }, []);
 
     
     const existingFacilities = currentCamp && currentCamp.campground.facilities;
-
+    const existingAccess = currentCamp && currentCamp.campground.access;
+    const existingAccOptions = currentCamp && currentCamp.campground.accomodationOptions;
+    
     return ( 
-        <Box display="flex" flexDirection="column" width={{sm: '90%', md:'30%'}} mx="auto" my={6} p={3}>
+        <Box display="flex" flexDirection="column" width={{sm: '90%', md:'40%'}} mx="auto" my={6} p={3}>
             <Typography fontWeight="bold" fontSize="1.5rem" mb={2}>
                 {formTitle}
             </Typography>
@@ -63,15 +71,20 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
                 color="borders" 
                 fullWidth
                 />
-                <Typography color="text.secondary" mt={2}>Campground facilities:</Typography>
-                <Box mb={2}>
-                {campgroundFacilities.map(item => ( 
-                    <FormControlLabel 
-                    control={<Checkbox {...register('facilities')} value={item.name} color="secondary" defaultChecked={existingFacilities && existingFacilities.includes(item.name)}/>} 
-                    label={item.name}
-                    />                                                            
-                ))}    
-                </Box>            
+                <FormControl fullWidth color="borders" margin="dense">
+                    <InputLabel id="demo-simple-select-label">Campground Landscape</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Campground Landscape"
+                        {...register("landscape", { required: true })}                         
+                    >
+                        {landscapeType.map(item =>(
+                            <MenuItem  value={item} key={item}>{item}</MenuItem>
+                        ))}
+                        
+                    </Select>
+                </FormControl>
 
                 <TextField 
                 {...register("description", { required: true })} 
@@ -84,8 +97,84 @@ const CampgroundForm = ({ currentCamp, actionName, formTitle = "Create a New Cam
                 fullWidth
                 />
 
+                <Typography color="text.secondary" mt={2}>Access:</Typography>
+                <Box mb={2}>
+                {locationAccess.map(item => (
+                    <FormControlLabel 
+                    key={item.name}
+                    control={
+                        <Checkbox 
+                        {...register('access')} 
+                        value={item.name} 
+                        color="secondary" 
+                        defaultChecked={existingAccess && existingAccess.includes(item.name)}
+                        />
+                    } 
+                    label={item.name}
+                    />                                                            
+                ))}    
+                </Box>      
+
+                <Typography color="text.secondary" mt={2}>Accomodation Options:</Typography>
+                <Box mb={2}>
+                {accomodationType.map(item => ( 
+                    <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        {...register('accomodationOptions')} 
+                        value={item.name} 
+                        color="secondary" 
+                        defaultChecked={existingAccOptions && existingAccOptions.includes(item.name)}
+                        />
+                    } 
+                    label={item.name}
+                    key={item.name}
+                    />                                                            
+                ))}    
+                </Box>      
+
+                <Typography color="text.secondary" mt={2}>Campground facilities:</Typography>
+                <Box mb={2}>
+                {campgroundFacilities.map(item => ( 
+                    <FormControlLabel 
+                    control={
+                        <Checkbox 
+                        {...register('facilities')} 
+                        value={item.name} 
+                        color="secondary" 
+                        defaultChecked={existingFacilities && existingFacilities.includes(item.name)}
+                        />
+                    } 
+                    label={item.name}
+                    key={item.name}
+                    />                                                            
+                ))}    
+                </Box>       
+
+                <Typography color="text.secondary" mt={2}>Location Contact:</Typography>
                 <Box>
-                    <Typography color="text.secondary" mt={2}>Choose location:</Typography>
+                <TextField 
+                {...register("contactInfo.phoneNumber")} 
+                label="Phone" 
+                type="tel"
+                variant="outlined" 
+                margin="dense" 
+                color="borders" 
+                fullWidth
+                />     
+
+                <TextField 
+                {...register("contactInfo.email")} 
+                label="Email" 
+                type="email"
+                variant="outlined" 
+                margin="dense" 
+                color="borders" 
+                fullWidth
+                />     
+                </Box>
+                <Box>
+                    <Typography color="text.secondary" my={2}>Choose location on map:</Typography>
                     <MapContainer 
                     width="100%" 
                     height="200px" 

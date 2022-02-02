@@ -90,9 +90,11 @@ const ShowCampground = () => {
 
                                 
                                 <Divider variant="middle" />
-                                <Box mt={2}>
+                                <Box mt={2} display="flex">
                                     {facilities && currentFacilities.map(item => (
-                                        <item.icon color="secondary"/>
+                                        <Box mr={1}>
+                                            <item.icon color="secondary"/>
+                                        </Box>
                                     ))}
                                 </Box>
                                 
